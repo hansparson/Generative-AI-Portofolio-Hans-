@@ -1,0 +1,6 @@
+{
+  "name": "Generative UI Portfolio",
+  "description": "An interactive, AI-driven full-stack portfolio that dynamically generates React viewports in real-time using conversational Gemini parameters and Node Express.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
