@@ -29,6 +29,10 @@
       "dest": "/api/messages.ts"
     },
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
       "src": "/images/(.*)",
       "dest": "/images/$1"
     },
@@ -37,12 +41,8 @@
       "dest": "/audio/$1"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/$1"
     }
   ]
 }
