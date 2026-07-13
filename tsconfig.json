@@ -21,6 +21,14 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true
-  }
+    "noEmit": true,
+    "types": ["vite/client", "node"]
+  },
+  "include": [
+    "src/**/*",
+    "global.d.ts",
+    "vite.config.ts",
+    "server.ts",
+    "api/**/*"
+  ]
 }

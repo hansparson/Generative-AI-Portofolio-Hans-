@@ -96,33 +96,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Split ELEVENLABS_API_KEY by comma to support multiple keys
   const apiKeys = (process.env.ELEVENLABS_API_KEY || "").split(",").map(k => k.trim()).filter(Boolean);
 
-  const runGoogleFallback = async () => {
-    console.warn("ElevenLabs failed or quota exceeded. Attempting fallback to Google Translate TTS...");
-    const chunks = splitTextIntoChunks(text, 180);
-    const audioBuffers: Buffer[] = [];
-    const lang = detectLanguage(text);
-
-    for (const chunk of chunks) {
-      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunk)}&tl=${lang}&client=tw-ob`;
-      const googleResponse = await fetch(googleTtsUrl, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
-      });
-
-      if (!googleResponse.ok) {
-        throw new Error(`Google TTS fallback failed with status ${googleResponse.status} for chunk: "${chunk}"`);
-      }
-
-      const chunkArrayBuffer = await googleResponse.arrayBuffer();
-      audioBuffers.push(Buffer.from(chunkArrayBuffer));
-    }
-
-    const combinedBuffer = Buffer.concat(audioBuffers);
-    res.setHeader("Content-Type", "audio/mpeg");
-    return res.send(combinedBuffer);
-  };
-
   if (apiKeys.length === 0) {
     try {
       return await runGoogleFallback();
