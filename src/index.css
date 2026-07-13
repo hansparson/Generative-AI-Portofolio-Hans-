@@ -203,3 +203,42 @@
 .animate-heartbeat-glow {
   animation: heartbeat-glow 3s ease-in-out infinite;
 }
+
+/* Light Mode Variables Override */
+.light-theme {
+  --color-slate-950: #f8fafc;
+  --color-slate-900: #f1f5f9;
+  --color-slate-850: #e2e8f0;
+  --color-slate-800: #cbd5e1;
+  --color-slate-750: #cbd5e1;
+  --color-slate-700: #94a3b8;
+  --color-slate-650: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-550: #334155;
+  --color-slate-500: #334155;
+  --color-slate-450: #1e293b;
+  --color-slate-400: #1e293b;
+  --color-slate-350: #0f172a;
+  --color-slate-300: #0f172a;
+  --color-slate-205: #0f172a;
+  --color-slate-200: #0f172a;
+  --color-slate-100: #0f172a;
+  
+  --color-white: #020617;
+  
+  --color-indigo-950: rgba(99, 102, 241, 0.08);
+  --color-indigo-900: rgba(99, 102, 241, 0.12);
+  --color-indigo-400: #4f46e5;
+  --color-indigo-450: #4f46e5;
+  --color-indigo-300: #3730a3;
+  --color-indigo-350: #312e81;
+
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Smooth transitions for theme toggle */
+#app-root, #app-root *, .cyber-panel-glass, .cyber-panel-glow {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+

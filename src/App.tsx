@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChatMessage } from './types';
-import { Layers, Terminal, Sparkles, Layout, Mail, Briefcase, Award, Library, ArrowRight, BookOpen, Cpu, FileText, Download } from 'lucide-react';
+import { Layers, Terminal, Sparkles, Layout, Mail, Briefcase, Award, Library, ArrowRight, BookOpen, Cpu, FileText, Download, Sun, Moon } from 'lucide-react';
 
 // Subcomponents
 import ChatPanel from './components/ChatPanel';
@@ -18,6 +18,16 @@ import BlogView from './components/BlogView';
 import SandboxView from './components/SandboxView';
 
 export default function App() {
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('portfolio_theme') as 'dark' | 'light') || 'dark';
+  });
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('portfolio_theme', nextTheme);
+  };
+
   const [showLanding, setShowLanding] = useState<boolean>(true);
   const [isWorkspaceVisible, setIsWorkspaceVisible] = useState<boolean>(true);
   // Generative state managed live
@@ -517,7 +527,7 @@ export default function App() {
   }
 
   return (
-    <div id="app-root" className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 antialiased">
+    <div id="app-root" className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 antialiased transition-colors duration-300 ${theme === 'light' ? 'light-theme bg-slate-950 text-slate-100' : 'bg-slate-950 text-slate-100'}`}>
       
       {/* Top Professional Header */}
       <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-3 md:px-6 py-3 md:py-4 flex items-center justify-between gap-2">
@@ -564,7 +574,14 @@ export default function App() {
         </nav>
 
         {/* Online status & CV Download */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 md:gap-3 shrink-0">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-all cursor-pointer flex items-center justify-center shrink-0"
+            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+          </button>
           <a
             href="/images/CV_Hans_Parson_Latest.pdf"
             download="CV_Hans_Parson_Latest.pdf"
