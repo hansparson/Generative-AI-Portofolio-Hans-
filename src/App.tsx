@@ -469,8 +469,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Column: High-tech capsule portal container */}
-            <div className="hidden lg:flex w-[26rem] h-[30rem] shrink-0 items-center justify-center select-none relative bg-slate-950/20 border border-indigo-500/10 rounded-3xl p-6 overflow-hidden">
+            {/* Right Column: High-tech capsule portal container - made responsive for mobile/tablet */}
+            <div className="flex w-full max-w-[20rem] sm:max-w-[24rem] lg:w-[26rem] h-80 sm:h-96 lg:h-[30rem] shrink-0 items-center justify-center select-none relative bg-slate-950/20 border border-indigo-500/10 rounded-3xl p-4 lg:p-6 overflow-hidden mx-auto">
               <div className="absolute inset-0 bg-indigo-500/5 rounded-full blur-3xl -z-10" />
               
               {/* Rotating radar grids */}
@@ -485,7 +485,7 @@ export default function App() {
               <div className="absolute h-full w-[1px] bg-indigo-500/10" />
 
               {/* Glowing Holographic core card */}
-              <div className="w-72 h-96 relative flex items-end justify-center rounded-2xl border border-indigo-500/25 bg-slate-950/80 shadow-[0_0_35px_rgba(99,102,241,0.2)] overflow-hidden">
+              <div className="w-48 h-64 sm:w-60 sm:h-80 lg:w-72 lg:h-96 relative flex items-end justify-center rounded-2xl border border-indigo-500/25 bg-slate-950/80 shadow-[0_0_35px_rgba(99,102,241,0.2)] overflow-hidden">
                 <div className="absolute inset-0 cyber-scanline opacity-10" />
                 <div className="laser-scanner-line" />
                 <img
