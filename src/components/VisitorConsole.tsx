@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Calendar, Database, Activity, RefreshCw, BarChart3, Clock } from 'lucide-react';
+import { Users, Calendar, Activity, RefreshCw, BarChart3, Clock } from 'lucide-react';
 import InteractiveTiltCard from './InteractiveTiltCard';
 
 interface DayVisitStats {
@@ -27,7 +27,6 @@ export default function VisitorConsole() {
   const [data, setData] = useState<VisitsData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isSimulating, setIsSimulating] = useState<boolean>(false);
 
   const fetchStats = async () => {
     try {
@@ -49,35 +48,6 @@ export default function VisitorConsole() {
   useEffect(() => {
     fetchStats();
   }, []);
-
-  const handleSimulateVisit = async () => {
-    setIsSimulating(true);
-    try {
-      const randomUserAgents = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
-        "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1"
-      ];
-      const randomUA = randomUserAgents[Math.floor(Math.random() * randomUserAgents.length)];
-
-      const res = await fetch('/api/visit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userAgent: randomUA }),
-      });
-
-      if (res.ok) {
-        await fetchStats();
-      }
-    } catch (err) {
-      console.error('Simulation failed:', err);
-    } finally {
-      setIsSimulating(false);
-    }
-  };
 
   const getDayInitial = (dayName: string) => {
     return dayName.substring(0, 3);
@@ -101,7 +71,7 @@ export default function VisitorConsole() {
             </span>
             <div>
               <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_METRIC::VISITOR_ANALYTICS]</h4>
-              <p className="text-[9px] text-slate-500 font-mono">Database Layer: SQL-SQLite Engine</p>
+              <p className="text-[9px] text-slate-500 font-mono">Database Layer: Hybrid DB Engine</p>
             </div>
           </div>
           <span className="text-[8px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/35 text-orange-400 flex items-center gap-1">
@@ -120,9 +90,9 @@ export default function VisitorConsole() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
-            {/* Left Metrics & Simulation */}
-            <div className="md:col-span-4 flex flex-col justify-between gap-4">
-              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-center h-full relative overflow-hidden group">
+            {/* Left Metrics */}
+            <div className="md:col-span-4 flex flex-col gap-4">
+              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-center h-full min-h-[140px] relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/5 rounded-full blur-xl -z-10 group-hover:bg-orange-500/10 transition-all" />
                 <span className="text-[9px] uppercase font-mono text-slate-500 font-bold tracking-wider">Total Visitors</span>
                 <span className="text-3xl font-extrabold text-white tracking-tight mt-1 font-display drop-shadow-[0_0_10px_rgba(249,115,22,0.2)]">
@@ -130,28 +100,9 @@ export default function VisitorConsole() {
                 </span>
                 <span className="text-[8px] text-slate-600 font-mono mt-1.5 flex items-center gap-1">
                   <Activity className="w-3 h-3 text-emerald-400" />
-                  Live SQLite Sync
+                  Live Database Sync
                 </span>
               </div>
-
-              {/* Simulation button */}
-              <button
-                onClick={handleSimulateVisit}
-                disabled={isSimulating}
-                className="w-full py-2.5 text-[10px] font-mono font-bold uppercase tracking-wider rounded-xl bg-orange-500/10 hover:bg-orange-500/20 active:scale-[0.98] text-orange-400 border border-orange-500/35 flex items-center justify-center gap-2 transition-all disabled:opacity-40 cursor-pointer shadow-md shadow-orange-500/5"
-              >
-                {isSimulating ? (
-                  <>
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    <span>[RECORDING...]</span>
-                  </>
-                ) : (
-                  <>
-                    <Database className="w-3.5 h-3.5" />
-                    <span>[SIMULATE_VISIT]</span>
-                  </>
-                )}
-              </button>
             </div>
 
             {/* Right Chart */}

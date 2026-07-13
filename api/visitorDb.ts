@@ -30,10 +30,19 @@ export class VisitorDatabase {
   private sqliteInitialized = false;
   private useFirebase = false;
   private firestore: any = null;
+  private configInitialized = false;
 
   constructor() {
     this.isServerless = process.env.VERCEL === "1" || !!process.env.AWS_LAMBDA_FUNCTION_VERSION;
-    
+  }
+
+  /**
+   * Lazily loads environment variables and initializes Firebase/SQLite configs.
+   * This prevents import hoisting issues during startup.
+   */
+  private initConfig() {
+    if (this.configInitialized) return;
+
     // Check if Firebase environment variables are provided
     this.useFirebase = !!(
       process.env.FIREBASE_PROJECT_ID &&
@@ -41,9 +50,18 @@ export class VisitorDatabase {
       process.env.FIREBASE_PRIVATE_KEY
     );
 
+    console.log("VisitorDatabase Lazy Init Debug:", {
+      useFirebase: this.useFirebase,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      hasEmail: !!process.env.FIREBASE_CLIENT_EMAIL,
+      hasKey: !!process.env.FIREBASE_PRIVATE_KEY
+    });
+
     if (this.useFirebase) {
       this.initFirebase();
     }
+
+    this.configInitialized = true;
   }
 
   private initFirebase() {
@@ -131,6 +149,8 @@ export class VisitorDatabase {
    * Execute query. If Firebase is active, redirects to Firestore. Otherwise, runs SQLite/JSON.
    */
   public async query(sql: string, params: any[] = []): Promise<any> {
+    this.initConfig();
+
     if (this.useFirebase && this.firestore) {
       try {
         return await this.queryFirebase(sql, params);

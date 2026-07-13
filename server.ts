@@ -1,14 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
-import dotenv from "dotenv";
 import visitHandler from "./api/visit";
 import visitsHandler from "./api/visits";
-
-// Load environment variables
-dotenv.config();
 
 // In-memory array of contact submissions as fallback if writing to disk is blocked
 let contactSubmissionsInMemory: any[] = [];
