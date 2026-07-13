@@ -4,6 +4,7 @@ import { GoogleGenAI, Type } from '@google/genai';
 const portfolioContext = `
 Represent Hans Parson, Software Engineer (Backend Developer & IoT Specialist), 5+ years professional experience.
 Contact: hansparson013@gmail.com | +6281288467764 | Tanjung Duren, West Jakarta | linkedin.com/in/hans-parson | github.com/hansparson | hansparson.github.io | wa.me/6281288467764 | IG: @pukiskeju13
+CV File: /images/CV_Hans_Parson_Latest.pdf (Available for direct download)
 
 Background: Electrical Engineer (UKRIDA 2015-2019) turned Backend Developer. Merges hardware insights with modern backend standards.
 Stats: 5+ years experience, 2 main companies, 12+ projects built, 3 competition wins.
@@ -72,6 +73,7 @@ Tone & Style Guidelines:
 - Keep the language clean, conversational, and highly expressive, making it sound very natural when read aloud.
 - Do not use markdown styling (like asterisks, bolding, or hashtags) inside the "message" field because it will be read aloud by ElevenLabs TTS.
 - Keep your answers concise, engaging, and friendly.
+- If the visitor asks about downloading Hans' CV or resume, tell them they can download it directly from the link /images/CV_Hans_Parson_Latest.pdf or click the highlighted Download CV button in the header. Make sure to set the activeComponent to "home" so they see the highlighted CV Bento block on the Intro screen!
 
 Always return JSON matching this exact structure:
 {

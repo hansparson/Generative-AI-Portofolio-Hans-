@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChatMessage } from './types';
-import { Layers, Terminal, Sparkles, Layout, Mail, Briefcase, Award, Library, ArrowRight, BookOpen, Cpu } from 'lucide-react';
+import { Layers, Terminal, Sparkles, Layout, Mail, Briefcase, Award, Library, ArrowRight, BookOpen, Cpu, FileText, Download } from 'lucide-react';
 
 // Subcomponents
 import ChatPanel from './components/ChatPanel';
@@ -505,10 +505,21 @@ export default function App() {
           ))}
         </nav>
 
-        {/* Online status — icon only on mobile */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span className="hidden sm:inline text-[10px] font-mono text-emerald-400">Online</span>
+        {/* Online status & CV Download */}
+        <div className="flex items-center gap-3 shrink-0">
+          <a
+            href="/images/CV_Hans_Parson_Latest.pdf"
+            download="CV_Hans_Parson_Latest.pdf"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:border-amber-500/50 transition-all cursor-pointer shadow-md shadow-amber-500/5"
+            title="Download CV (PDF)"
+          >
+            <FileText className="w-3.5 h-3.5 text-amber-400" />
+            <span className="hidden sm:inline">Download CV</span>
+          </a>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="hidden sm:inline text-[10px] font-mono text-emerald-400">Online</span>
+          </div>
         </div>
       </header>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, CheckCircle, RefreshCw, AlertCircle, Database, Mail, User, MessageSquare, Linkedin, Instagram, MessageCircle, ExternalLink } from 'lucide-react';
+import { Send, CheckCircle, RefreshCw, AlertCircle, Database, Mail, User, MessageSquare, Linkedin, Instagram, MessageCircle, ExternalLink, FileText, Download } from 'lucide-react';
 import WorkspaceHeader from './WorkspaceHeader';
 import InteractiveTiltCard from './InteractiveTiltCard';
 
@@ -199,7 +199,8 @@ export default function ContactView({
                   url: 'https://wa.me/6281288467764',
                   icon: <MessageCircle className="w-4 h-4" />,
                   colorClass: 'text-emerald-400 group-hover:text-emerald-300',
-                  bgHoverClass: 'hover:bg-emerald-500/10 hover:border-emerald-500/30'
+                  bgHoverClass: 'hover:bg-emerald-500/10 hover:border-emerald-500/30',
+                  download: false
                 },
                 {
                   name: 'LinkedIn',
@@ -207,7 +208,8 @@ export default function ContactView({
                   url: 'https://www.linkedin.com/in/hans-parson/',
                   icon: <Linkedin className="w-4 h-4" />,
                   colorClass: 'text-indigo-400 group-hover:text-indigo-300',
-                  bgHoverClass: 'hover:bg-indigo-500/10 hover:border-indigo-500/30'
+                  bgHoverClass: 'hover:bg-indigo-500/10 hover:border-indigo-500/30',
+                  download: false
                 },
                 {
                   name: 'Instagram',
@@ -215,14 +217,25 @@ export default function ContactView({
                   url: 'https://www.instagram.com/pukiskeju13/',
                   icon: <Instagram className="w-4 h-4" />,
                   colorClass: 'text-pink-400 group-hover:text-pink-300',
-                  bgHoverClass: 'hover:bg-pink-500/10 hover:border-pink-500/30'
+                  bgHoverClass: 'hover:bg-pink-500/10 hover:border-pink-500/30',
+                  download: false
+                },
+                {
+                  name: 'Curriculum Vitae',
+                  handle: 'Download PDF (28 KB)',
+                  url: '/images/CV_Hans_Parson_Latest.pdf',
+                  icon: <FileText className="w-4 h-4" />,
+                  colorClass: 'text-amber-400 group-hover:text-amber-300',
+                  bgHoverClass: 'hover:bg-amber-500/10 hover:border-amber-500/40 border-amber-500/20 bg-amber-500/5 shadow-md shadow-amber-500/5',
+                  download: true
                 }
               ].map((link) => (
                 <a
                   key={link.name}
                   href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={link.download ? undefined : "_blank"}
+                  rel={link.download ? undefined : "noopener noreferrer"}
+                  download={link.download ? "CV_Hans_Parson_Latest.pdf" : undefined}
                   className={`group p-3 rounded-lg bg-slate-950/40 border border-slate-850 flex items-center justify-between text-xs transition-all ${link.bgHoverClass}`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -234,7 +247,11 @@ export default function ContactView({
                       <p className="text-[10px] text-slate-500 font-mono">{link.handle}</p>
                     </div>
                   </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" />
+                  {link.download ? (
+                    <Download className="w-3.5 h-3.5 text-amber-500 group-hover:text-amber-400 transition-colors shrink-0 animate-pulse" />
+                  ) : (
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" />
+                  )}
                 </a>
               ))}
             </div>

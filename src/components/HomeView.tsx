@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { INITIAL_SKILLS, INITIAL_PROJECTS } from '../data/portfolio';
-import { Cpu, Code2, MapPin, Sparkles, Terminal, Mail, FileText, ArrowRight } from 'lucide-react';
+import { Cpu, Code2, MapPin, Sparkles, Terminal, Mail, FileText, ArrowRight, Download } from 'lucide-react';
 import WorkspaceHeader from './WorkspaceHeader';
 import InteractiveTiltCard from './InteractiveTiltCard';
 import TelemetryConsole from './TelemetryConsole';
@@ -68,13 +68,23 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
             </div>
           </div>
 
-          <button
-            onClick={() => onNavigate('contact')}
-            className="w-full mt-4 py-2.5 text-xs font-semibold rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition-colors flex items-center justify-center gap-1.5 group/btn cursor-pointer"
-          >
-            Get In Touch
-            <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-          </button>
+          <div className="space-y-2 mt-4">
+            <button
+              onClick={() => onNavigate('contact')}
+              className="w-full py-2.5 text-xs font-semibold rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition-colors flex items-center justify-center gap-1.5 group/btn cursor-pointer"
+            >
+              Get In Touch
+              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+            </button>
+            <a
+              href="/images/CV_Hans_Parson_Latest.pdf"
+              download="CV_Hans_Parson_Latest.pdf"
+              className="w-full py-2.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 hover:border-amber-500/40 hover:text-amber-300 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:shadow-amber-500/5"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-400" />
+              Download CV
+            </a>
+          </div>
         </InteractiveTiltCard>
 
         {/* About Specialty Card */}
@@ -275,6 +285,73 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
             Focused on low latency, security, and clean API design.
           </div>
         </div>
+
+        {/* CV Bento Card */}
+        <InteractiveTiltCard
+          className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/20 border border-slate-800 hover:border-amber-500/40 flex flex-col justify-between space-y-4 relative overflow-hidden group shadow-lg transition-all duration-300"
+          glowColor="rgba(245, 158, 11, 0.15)"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl -z-10 group-hover:bg-amber-500/10 transition-all duration-300" />
+          
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-xs uppercase tracking-wider font-mono text-slate-500 font-semibold">Curriculum Vitae</h4>
+              <span className="text-[9px] font-mono font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
+                Downloadable
+              </span>
+            </div>
+            
+            {/* Interactive/Highlightable CV Image Mockup */}
+            <a
+              href="/images/CV_Hans_Parson_Latest.pdf"
+              download="CV_Hans_Parson_Latest.pdf"
+              className="block relative mt-2 rounded-xl border border-slate-800 bg-slate-950 p-4 aspect-[4/3] overflow-hidden flex flex-col justify-between group-hover:border-amber-500/30 hover:border-amber-500/30 transition-all duration-300 shadow-inner cursor-pointer"
+            >
+              {/* Mock Resume Lines */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 border-b border-slate-900 pb-2">
+                  <div className="w-6 h-6 rounded-full bg-slate-800 shrink-0 flex items-center justify-center text-[8px] font-bold text-slate-400 font-mono">HP</div>
+                  <div className="space-y-1 w-full">
+                    <div className="h-2 w-16 bg-slate-800 rounded"></div>
+                    <div className="h-1.5 w-24 bg-slate-900 rounded"></div>
+                  </div>
+                </div>
+                <div className="space-y-1.5 pt-1">
+                  <div className="h-1.5 w-full bg-slate-900/40 rounded"></div>
+                  <div className="h-1.5 w-[90%] bg-slate-900/40 rounded"></div>
+                  <div className="h-1.5 w-[95%] bg-slate-900/40 rounded"></div>
+                  <div className="h-1.5 w-[80%] bg-slate-900/40 rounded"></div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-slate-900 pt-2 text-[8px] font-mono text-slate-500">
+                <span>PDF Format</span>
+                <span>28 KB</span>
+              </div>
+              
+              {/* Hover Highlight Overlay */}
+              <div className="absolute inset-0 bg-indigo-950/80 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2">
+                <div className="p-2.5 rounded-full bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30 scale-75 group-hover:scale-100 transition-transform duration-300">
+                  <Download className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-mono font-bold text-amber-300 tracking-wider">DOWNLOAD CV</span>
+              </div>
+            </a>
+          </div>
+          
+          <div className="space-y-3">
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Access the complete profile detailing professional credentials, backend capabilities, and tech stack logs.
+            </p>
+            <a
+              href="/images/CV_Hans_Parson_Latest.pdf"
+              download="CV_Hans_Parson_Latest.pdf"
+              className="w-full py-2.5 text-xs font-semibold rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 transition-colors flex items-center justify-center gap-1.5 cursor-pointer font-bold shadow-lg shadow-amber-500/20"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Download CV (PDF)
+            </a>
+          </div>
+        </InteractiveTiltCard>
       </div>
     </motion.div>
   );
