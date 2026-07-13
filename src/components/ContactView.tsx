@@ -75,9 +75,12 @@ export default function ContactView({
       />
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        
         {/* Form Container */}
-        <div className="md:col-span-3 p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider font-mono text-slate-400">Secure Dispatch</h3>
+        <div className="md:col-span-3 p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 shadow-lg relative overflow-hidden backdrop-blur-md space-y-4">
+          <div className="absolute inset-0 cyber-scanline opacity-5" />
+          
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 relative z-10">[SECURE_DISPATCH::FORM]</h3>
           
           <AnimatePresence mode="wait">
             {submitStatus === 'success' ? (
@@ -85,22 +88,22 @@ export default function ContactView({
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="p-6 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3"
+                className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3 relative z-10"
               >
                 <div className="inline-flex p-3 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                   <CheckCircle className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-white font-sans">Message Dispatched Successfully</h4>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Your transmission has been parsed and logged to the server database directory!
+                  <p className="text-xs text-slate-400 mt-1 font-mono">
+                    [STATUS: PARSED_AND_LOGGED]
                   </p>
                 </div>
                 <button
                   onClick={() => setSubmitStatus('idle')}
-                  className="mt-2 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-all uppercase tracking-wider"
+                  className="mt-2 text-xs font-mono font-bold text-indigo-400 hover:text-indigo-300 transition-all uppercase tracking-wider"
                 >
-                  Send another message
+                  [SEND_ANOTHER_TRANSMISSION]
                 </button>
               </motion.div>
             ) : (
@@ -108,19 +111,19 @@ export default function ContactView({
                 onSubmit={handleSubmit}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="space-y-4"
+                className="space-y-4 relative z-10"
               >
                 {submitStatus === 'error' && (
-                  <div className="p-3.5 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-start gap-2 text-xs text-rose-400 font-sans">
+                  <div className="p-3.5 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-start gap-2 text-xs text-rose-400 font-mono">
                     <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                    <span>{errorMessage}</span>
+                    <span>ERR_DISPATCH_FAILED: {errorMessage}</span>
                   </div>
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Name field */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                    <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center gap-1.5">
                       <User className="w-3 h-3 text-indigo-400" /> Your Name
                     </label>
                     <input
@@ -129,13 +132,13 @@ export default function ContactView({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Jane Doe"
-                      className="w-full bg-slate-950 text-white text-xs px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500"
+                      className="w-full bg-slate-900/50 text-white text-xs px-3.5 py-2.5 rounded-xl border border-slate-850 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500"
                     />
                   </div>
 
                   {/* Email field */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                    <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center gap-1.5">
                       <Mail className="w-3 h-3 text-indigo-400" /> Email Address
                     </label>
                     <input
@@ -144,14 +147,14 @@ export default function ContactView({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="jane@example.com"
-                      className="w-full bg-slate-950 text-white text-xs px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500"
+                      className="w-full bg-slate-900/50 text-white text-xs px-3.5 py-2.5 rounded-xl border border-slate-850 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500"
                     />
                   </div>
                 </div>
 
                 {/* Message field */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                  <label className="text-[9px] font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center gap-1.5">
                     <MessageSquare className="w-3 h-3 text-indigo-400" /> Your Message
                   </label>
                   <textarea
@@ -159,8 +162,8 @@ export default function ContactView({
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Describe your project, timeline, or scope of interest..."
-                    className="w-full bg-slate-950 text-white text-xs px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500"
+                    placeholder="Describe your project scope or timeline..."
+                    className="w-full bg-slate-900/50 text-white text-xs px-3.5 py-2.5 rounded-xl border border-slate-850 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500 font-sans"
                   />
                 </div>
 
@@ -168,15 +171,15 @@ export default function ContactView({
                 <button
                   type="submit"
                   disabled={isSubmitting || !name || !email || !message}
-                  className="w-full px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 disabled:hover:bg-indigo-500 text-white transition-colors flex items-center justify-center gap-2"
+                  className="w-full px-4 py-2.5 text-xs font-mono font-bold uppercase rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 text-white transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
                 >
                   {isSubmitting ? (
                     <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Logging submission...
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" /> [LOGGING_TRANSMISSION...]
                     </>
                   ) : (
                     <>
-                      <Send className="w-3.5 h-3.5" /> Dispatch Transmission
+                      <Send className="w-3.5 h-3.5" /> [DISPATCH_TRANSMISSION]
                     </>
                   )}
                 </button>
@@ -189,9 +192,11 @@ export default function ContactView({
         <div className="md:col-span-2 flex flex-col justify-between gap-4">
           
           {/* Direct channels card */}
-          <InteractiveTiltCard glowColor="rgba(99, 102, 241, 0.15)" className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider font-mono text-slate-400">Direct Connect</h3>
-            <div className="space-y-2.5">
+          <InteractiveTiltCard glowColor="rgba(99, 102, 241, 0.15)" className="p-5 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 shadow-lg relative overflow-hidden backdrop-blur-md space-y-4">
+            <div className="absolute inset-0 cyber-scanline opacity-5" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 relative z-10">[DIRECT_CONNECT]</h3>
+            
+            <div className="space-y-2.5 relative z-10">
               {[
                 {
                   name: 'WhatsApp',
@@ -236,15 +241,15 @@ export default function ContactView({
                   target={link.download ? undefined : "_blank"}
                   rel={link.download ? undefined : "noopener noreferrer"}
                   download={link.download ? "CV_Hans_Parson_Latest.pdf" : undefined}
-                  className={`group p-3 rounded-lg bg-slate-950/40 border border-slate-850 flex items-center justify-between text-xs transition-all ${link.bgHoverClass}`}
+                  className={`group p-2.5 rounded-xl bg-slate-950/60 border border-slate-900 flex items-center justify-between text-xs transition-all ${link.bgHoverClass}`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className={`p-1.5 rounded-md bg-slate-950 border border-slate-800 transition-colors ${link.colorClass}`}>
+                    <div className={`p-1.5 rounded-lg bg-slate-950 border border-slate-900/60 transition-colors ${link.colorClass}`}>
                       {link.icon}
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-200 group-hover:text-white transition-colors">{link.name}</p>
-                      <p className="text-[10px] text-slate-500 font-mono">{link.handle}</p>
+                      <p className="font-bold text-slate-200 group-hover:text-white transition-colors text-xs">{link.name}</p>
+                      <p className="text-[9px] text-slate-500 font-mono mt-0.5">{link.handle}</p>
                     </div>
                   </div>
                   {link.download ? (
@@ -258,15 +263,16 @@ export default function ContactView({
           </InteractiveTiltCard>
 
           {/* Database Logging Status */}
-          <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4 flex-1 flex flex-col justify-between">
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wider font-mono text-slate-400 flex items-center gap-1.5">
-                <Database className="w-4 h-4 text-amber-500" /> Logging Pipeline
+          <div className="p-5 rounded-2xl bg-slate-950/45 border border-slate-900/80 shadow-lg backdrop-blur-md space-y-4 flex-1 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute inset-0 cyber-scanline opacity-5" />
+            <div className="space-y-3 relative z-10">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Database className="w-4 h-4 text-indigo-400" /> [LOGGING_PIPELINE]
               </h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
                 Submissions write dynamically to a file-persistent store (`data/messages.json`) on our Node Express backend container. 
               </p>
-              <div className="p-3 rounded-lg bg-slate-950/80 border border-slate-850/85 text-[11px] text-slate-500 font-mono space-y-1">
+              <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-900 text-[10px] text-slate-550 font-mono space-y-1">
                 <div className="flex items-center justify-between">
                   <span>Database:</span>
                   <span className="text-emerald-400 font-semibold flex items-center gap-1">
@@ -276,11 +282,11 @@ export default function ContactView({
                 </div>
                 <div className="flex items-center justify-between">
                   <span>File I/O Stream:</span>
-                  <span className="text-emerald-400 font-semibold">Ready</span>
+                  <span className="text-emerald-400 font-semibold font-bold">Ready</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Encryption:</span>
-                  <span className="text-indigo-400">CJS-Node-Safe</span>
+                  <span className="text-indigo-400">Node-Secure</span>
                 </div>
               </div>
             </div>
@@ -288,9 +294,9 @@ export default function ContactView({
             {onViewSubmissions && (
               <button
                 onClick={onViewSubmissions}
-                className="w-full mt-3 px-4 py-2 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white font-mono text-xs text-center transition-all flex items-center justify-center gap-2"
+                className="w-full mt-3 px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-900 hover:border-slate-800 text-slate-350 hover:text-white font-mono text-[10px] text-center transition-all flex items-center justify-center gap-2 cursor-pointer relative z-10"
               >
-                <span>View Live Submissions Log</span>
+                <span>[VIEW_LIVE_SUBMISSIONS_LOG]</span>
               </button>
             )}
           </div>
