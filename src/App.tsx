@@ -527,10 +527,18 @@ export default function App() {
   }
 
   return (
-    <div id="app-root" className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 antialiased transition-colors duration-300 ${theme === 'light' ? 'light-theme bg-slate-950 text-slate-100' : 'bg-slate-950 text-slate-100'}`}>
+    <div id="app-root" className={`min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 antialiased transition-colors duration-300 relative overflow-hidden ${theme === 'light' ? 'light-theme bg-slate-950 text-slate-100' : 'bg-slate-950 text-slate-100'}`}>
       
+      {/* Dynamic background mesh grids & scanlines */}
+      <div className="absolute inset-0 mesh-grid z-0 opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 cyber-scanline opacity-[0.03] z-0 pointer-events-none" />
+      
+      {/* Background Cybernetic Glow Blobs */}
+      <div className="absolute top-[20%] left-[10%] w-[35rem] h-[35rem] bg-indigo-500/10 rounded-full blur-3xl -z-10 animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[10%] w-[40rem] h-[40rem] bg-cyan-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
+
       {/* Top Professional Header */}
-      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-3 md:px-6 py-3 md:py-4 flex items-center justify-between gap-2">
+      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-3 md:px-6 py-3 md:py-4 flex items-center justify-between gap-2 relative">
         <div className="flex items-center gap-2 md:gap-3 min-w-0">
           {/* Profile Photo Avatar */}
           <div className="relative shrink-0">

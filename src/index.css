@@ -226,14 +226,21 @@
   
   --color-white: #020617;
   
-  --color-indigo-950: rgba(99, 102, 241, 0.08);
-  --color-indigo-900: rgba(99, 102, 241, 0.12);
+  --color-indigo-950: #e0e7ff;
+  --color-indigo-900: #c7d2fe;
   --color-indigo-400: #4f46e5;
   --color-indigo-450: #4f46e5;
   --color-indigo-300: #3730a3;
   --color-indigo-350: #312e81;
+  
+  /* Text indigo variables mapping for light theme readability */
+  --color-indigo-50: #1e1b4b;
+  --color-indigo-100: #1e1b4b;
+  --color-indigo-150: #1e1b4b;
+  --color-indigo-200: #2e1065;
+  --color-indigo-250: #312e81;
 
-  background-color: #f8fafc !important;
+  background: radial-gradient(circle at 50% 0%, #eef2ff 0%, #f8fafc 100%) !important;
   color: #0f172a !important;
 }
 
