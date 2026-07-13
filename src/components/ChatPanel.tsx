@@ -217,38 +217,8 @@ export default function ChatPanel({
         </div>
       </div>
 
-      {/* Main Content Area: Split Pane on Desktop (Fixed Avatar Left / Scrollable Chat Right) */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        
-        {/* Large Holographic Sticky Avatar Container (Left Pane on Desktop) */}
-        <div className="hidden md:flex md:w-[35%] border-r border-slate-900/80 flex-col items-center justify-center p-4 relative bg-slate-950/20 overflow-hidden select-none pointer-events-none">
-          {/* Cyber scanlines and glowing core grids */}
-          <div className="absolute inset-0 cyber-scanline opacity-10" />
-          <div className="laser-scanner-line" />
-          
-          <div className="absolute w-[85%] aspect-square rounded-full border border-indigo-500/5 animate-slow-spin flex items-center justify-center pointer-events-none">
-            <div className="w-[85%] aspect-square rounded-full border border-indigo-500/10 border-dashed" />
-          </div>
-
-          <div className="w-full h-full max-h-[350px] relative flex items-end justify-center z-10">
-            <motion.img
-              key={currentExpression}
-              initial={{ scale: 0.92, opacity: 0.8, y: 10 }}
-              animate={{ scale: 1.08, opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              src={avatarUrl}
-              alt="AI Portrait"
-              className="max-w-[100%] max-h-full object-contain drop-shadow-[0_0_22px_rgba(99,102,241,0.4)] animate-float"
-            />
-          </div>
-
-          {/* HUD State Indicator */}
-          <div className="absolute bottom-3.5 px-3 py-1 bg-indigo-950/70 border border-indigo-500/35 rounded text-[8px] font-mono text-indigo-300 uppercase tracking-widest shadow-md">
-            AI_STATE::{currentExpression.toUpperCase()}
-          </div>
-        </div>
-
-        {/* Scrollable Chat Stream Container (Right Pane) */}
+      {/* Main Content Area: Single Column Chat Stream (Avatar floats outside in App.tsx) */}
+      <div className="flex-1 flex flex-col overflow-hidden">
         <div className="flex-1 flex flex-col overflow-hidden">
           
           {/* Mobile Header Projection Bar (Sticky on Mobile) */}
