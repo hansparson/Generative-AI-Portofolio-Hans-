@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
 export interface Visit {
   id: string;
@@ -8,7 +10,7 @@ export interface Visit {
   userAgent: string;
 }
 
-// In-memory store for serverless environments
+// In-memory store for serverless environments (fallback)
 if (typeof global.visitsStore === "undefined") {
   global.visitsStore = [];
 }
@@ -26,9 +28,44 @@ export class VisitorDatabase {
   private isServerless: boolean;
   private sqliteDb: ISqliteWrapper | null = null;
   private sqliteInitialized = false;
+  private useFirebase = false;
+  private firestore: any = null;
 
   constructor() {
     this.isServerless = process.env.VERCEL === "1" || !!process.env.AWS_LAMBDA_FUNCTION_VERSION;
+    
+    // Check if Firebase environment variables are provided
+    this.useFirebase = !!(
+      process.env.FIREBASE_PROJECT_ID &&
+      process.env.FIREBASE_CLIENT_EMAIL &&
+      process.env.FIREBASE_PRIVATE_KEY
+    );
+
+    if (this.useFirebase) {
+      this.initFirebase();
+    }
+  }
+
+  private initFirebase() {
+    try {
+      if (!getApps().length) {
+        // Format private key properly to handle newlines
+        const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+        
+        initializeApp({
+          credential: cert({
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+            privateKey: privateKey,
+          })
+        });
+      }
+      this.firestore = getFirestore();
+      console.log("Firebase Engine: Successfully connected to Cloud Firestore.");
+    } catch (err) {
+      console.error("Firebase Engine: Failed to initialize Firestore. Falling back to SQLite/JSON. Error:", err);
+      this.useFirebase = false;
+    }
   }
 
   /**
@@ -91,9 +128,17 @@ export class VisitorDatabase {
   }
 
   /**
-   * Execute SQL query. If SQLite is active, runs true SQL. Otherwise, simulates via JSON.
+   * Execute query. If Firebase is active, redirects to Firestore. Otherwise, runs SQLite/JSON.
    */
   public async query(sql: string, params: any[] = []): Promise<any> {
+    if (this.useFirebase && this.firestore) {
+      try {
+        return await this.queryFirebase(sql, params);
+      } catch (err) {
+        console.error("Firebase Engine: Query failed. Falling back to local/in-memory engine. Error:", err);
+      }
+    }
+
     const db = await this.initSqlite();
 
     if (db) {
@@ -108,6 +153,73 @@ export class VisitorDatabase {
       // Fallback JSON Query Engine
       return this.queryFallback(sql, params);
     }
+  }
+
+  /**
+   * SQL Simulator layer for Firebase Cloud Firestore
+   */
+  private async queryFirebase(sql: string, params: any[] = []): Promise<any> {
+    const normalizedSql = sql.trim().replace(/\s+/g, " ");
+
+    // 1. INSERT INTO visits (id, timestamp, dayOfWeek, userAgent) VALUES (?, ?, ?, ?)
+    if (normalizedSql.match(/^INSERT INTO visits/i)) {
+      const [id, timestamp, dayOfWeek, userAgent] = params;
+      const visitId = id || "visit_" + Math.random().toString(36).substring(2, 9);
+      const visitDoc: Visit = {
+        id: visitId,
+        timestamp: timestamp || new Date().toISOString(),
+        dayOfWeek: typeof dayOfWeek === "number" ? dayOfWeek : new Date().getDay(),
+        userAgent: userAgent || ""
+      };
+      
+      await this.firestore.collection("visits").doc(visitId).set(visitDoc);
+      return { success: true, lastID: visitId };
+    }
+
+    // 2. SELECT COUNT(*) FROM visits
+    if (normalizedSql.match(/SELECT COUNT\(\*\)/i)) {
+      const snapshot = await this.firestore.collection("visits").count().get();
+      return [{ count: snapshot.data().count }];
+    }
+
+    // 3. SELECT dayOfWeek, COUNT(*) FROM visits GROUP BY dayOfWeek
+    if (normalizedSql.match(/GROUP BY dayOfWeek/i)) {
+      const snapshot = await this.firestore.collection("visits").get();
+      const counts: Record<number, number> = {};
+      for (let i = 0; i < 7; i++) {
+        counts[i] = 0; // Pre-fill days 0 to 6
+      }
+      
+      snapshot.forEach((doc: any) => {
+        const data = doc.data();
+        const day = typeof data.dayOfWeek === "number" ? data.dayOfWeek : 0;
+        counts[day] = (counts[day] || 0) + 1;
+      });
+
+      return Object.keys(counts).map((day) => ({
+        dayOfWeek: parseInt(day, 10),
+        count: counts[parseInt(day, 10)]
+      }));
+    }
+
+    // 4. SELECT * FROM visits ORDER BY timestamp DESC LIMIT X
+    if (normalizedSql.match(/ORDER BY timestamp DESC/i)) {
+      const limitMatch = normalizedSql.match(/LIMIT\s+(\d+)/i);
+      const limit = limitMatch ? parseInt(limitMatch[1], 10) : 50;
+
+      const snapshot = await this.firestore.collection("visits")
+        .orderBy("timestamp", "desc")
+        .limit(limit)
+        .get();
+
+      const results: Visit[] = [];
+      snapshot.forEach((doc: any) => {
+        results.push(doc.data() as Visit);
+      });
+      return results;
+    }
+
+    return [];
   }
 
   /**
