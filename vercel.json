@@ -29,6 +29,14 @@
       "dest": "/api/messages.ts"
     },
     {
+      "src": "/api/visit",
+      "dest": "/api/visit.ts"
+    },
+    {
+      "src": "/api/visits",
+      "dest": "/api/visits.ts"
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },

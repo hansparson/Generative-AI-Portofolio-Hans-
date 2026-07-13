@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChatMessage, RoleType, GenerativeUIResponse } from '../types';
+import { ChatMessage, GenerativeUIResponse } from '../types';
 import { SUGGESTED_PROMPTS } from '../data/portfolio';
 import { Send, Sparkles, Terminal, ArrowRight, RefreshCw, Volume2, VolumeX } from 'lucide-react';
 
@@ -54,7 +54,7 @@ export default function ChatPanel({
 
   const loadingPhrases = [
     'Synthesizing prompt intent...',
-    'Querrying Gemini 3.5 LLM context...',
+    'Querying Gemini 3.5 LLM context...',
     'Composing dynamic React props...',
     'Injecting metadata structures...',
     'Aligning interactive viewport...'
@@ -73,7 +73,7 @@ export default function ChatPanel({
     return () => clearInterval(interval);
   }, [isLoading]);
 
-  // Scroll to bottom
+  // Scroll to bottom of message list
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -97,7 +97,6 @@ export default function ChatPanel({
     setIsLoading(true);
 
     try {
-      // Map previous chat messages for history
       const mappedHistory = chatHistory.slice(-6).map(h => ({
         role: h.role,
         text: h.text
@@ -168,10 +167,15 @@ export default function ChatPanel({
     }
   };
 
+  // Find the last assistant message to determine current expression dynamically
+  const lastAssistantMsg = [...chatHistory].reverse().find(m => m.role === 'assistant');
+  const currentExpression = lastAssistantMsg?.avatarExpression || 'neutral';
+  const avatarUrl = getAvatarUrl(currentExpression);
+
   return (
-    <div id="chat-panel" className="flex flex-col h-full bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden relative shadow-2xl">
+    <div id="chat-panel" className="flex flex-col h-full bg-slate-950/45 border border-slate-900/60 rounded-2xl overflow-hidden relative shadow-2xl backdrop-blur-lg">
       {/* Panel Header */}
-      <div className="px-4 py-3.5 border-b border-slate-850 bg-slate-900/40 flex items-center justify-between">
+      <div className="px-4 py-3.5 border-b border-slate-900/60 bg-slate-950/50 backdrop-blur-md flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
             <Sparkles className="w-4 h-4 animate-pulse text-indigo-400" />
@@ -188,16 +192,16 @@ export default function ChatPanel({
           <button
             type="button"
             onClick={onToggleWorkspace}
-            className="text-[10px] font-mono text-indigo-400 hover:text-indigo-300 uppercase tracking-wider transition-colors flex items-center gap-1 hover:bg-slate-800/50 px-2 py-0.5 rounded border border-indigo-500/20 cursor-pointer"
+            className="text-[10px] font-mono text-indigo-400 hover:text-indigo-300 uppercase tracking-wider transition-colors flex items-center gap-1 hover:bg-slate-900/50 px-2 py-0.5 rounded border border-indigo-500/20 cursor-pointer font-bold"
             title={isWorkspaceVisible ? "Hide Information Panel" : "Show Information Panel"}
           >
-            {isWorkspaceVisible ? "Hide Info" : "Show Info"}
+            {isWorkspaceVisible ? "[Hide Info]" : "[Show Info]"}
           </button>
           <span className="text-slate-800">|</span>
           <button
             type="button"
             onClick={toggleMute}
-            className="text-slate-500 hover:text-slate-300 transition-colors flex items-center p-1 rounded hover:bg-slate-800/50 cursor-pointer"
+            className="text-slate-500 hover:text-slate-350 transition-colors flex items-center p-1 rounded hover:bg-slate-900/50 cursor-pointer"
             title={isMuted ? "Unmute Voice Output" : "Mute Voice Output"}
           >
             {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 text-indigo-400" />}
@@ -213,105 +217,135 @@ export default function ChatPanel({
         </div>
       </div>
 
-      {/* Message Stream */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
-        {chatHistory.map((msg) => {
-          if (msg.role === 'user') {
-            return (
-              <div
-                key={msg.id}
-                className="flex flex-col max-w-[85%] ml-auto items-end"
-              >
-                {/* User Message Bubble */}
-                <div className="p-3.5 rounded-2xl text-xs leading-relaxed bg-indigo-500 text-white rounded-br-none shadow-md shadow-indigo-500/5">
-                  {msg.text}
-                </div>
-                <span className="text-[9px] text-slate-600 font-mono mt-1 px-1">{msg.timestamp}</span>
-              </div>
-            );
-          } else {
-            // Assistant JRPG style dialog box
-            const avatarUrl = getAvatarUrl(msg.avatarExpression || 'neutral');
-            return (
-              <div
-                key={msg.id}
-                className="w-full flex items-end gap-3 pt-6 pb-2"
-              >
-                {/* Character Portrait (stands on the left, completely outside the text box) */}
-                <div className="w-32 h-40 shrink-0 flex items-end justify-center select-none pointer-events-none">
-                  <img
-                    src={avatarUrl}
-                    alt="AI Portrait"
-                    className="max-w-full max-h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)] transform hover:scale-105 transition-transform duration-200"
-                  />
-                </div>
+      {/* Main Content Area: Split Pane on Desktop (Fixed Avatar Left / Scrollable Chat Right) */}
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        
+        {/* Large Holographic Sticky Avatar Container (Left Pane on Desktop) */}
+        <div className="hidden md:flex md:w-[35%] border-r border-slate-900/80 flex-col items-center justify-center p-4 relative bg-slate-950/20 overflow-hidden select-none pointer-events-none">
+          {/* Cyber scanlines and glowing core grids */}
+          <div className="absolute inset-0 cyber-scanline opacity-10" />
+          <div className="laser-scanner-line" />
+          
+          <div className="absolute w-[85%] aspect-square rounded-full border border-indigo-500/5 animate-slow-spin flex items-center justify-center pointer-events-none">
+            <div className="w-[85%] aspect-square rounded-full border border-indigo-500/10 border-dashed" />
+          </div>
 
-                {/* Text Dialogue Box (on the right) */}
-                <div className="flex-1 min-w-0 relative">
-                  {/* Name Tag */}
-                  <div className="absolute left-4 -top-3.5 px-3 py-0.5 bg-amber-950 border border-amber-700/80 rounded shadow-md z-30">
-                    <span className="text-[9px] font-bold font-mono tracking-wider text-amber-300 uppercase">
-                      Alison
-                    </span>
-                  </div>
+          <div className="w-full h-full max-h-[350px] relative flex items-end justify-center z-10">
+            <motion.img
+              key={currentExpression}
+              initial={{ scale: 0.92, opacity: 0.8, y: 10 }}
+              animate={{ scale: 1.08, opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              src={avatarUrl}
+              alt="AI Portrait"
+              className="max-w-[100%] max-h-full object-contain drop-shadow-[0_0_22px_rgba(99,102,241,0.4)] animate-float"
+            />
+          </div>
 
-                  {/* Dialogue Bubble (Beige Parchment JRPG Theme) */}
-                  <div className="w-full min-h-[72px] p-3.5 bg-[#fdf6e2] text-slate-900 border-2 border-amber-900 rounded-xl rounded-bl-none shadow-xl relative flex flex-col justify-center">
-                    <p className="text-xs font-semibold leading-relaxed">
-                      {msg.text.replace(/\[[a-zA-Z0-9_\s-]+\]/g, '').trim()}
-                    </p>
+          {/* HUD State Indicator */}
+          <div className="absolute bottom-3.5 px-3 py-1 bg-indigo-950/70 border border-indigo-500/35 rounded text-[8px] font-mono text-indigo-300 uppercase tracking-widest shadow-md">
+            AI_STATE::{currentExpression.toUpperCase()}
+          </div>
+        </div>
 
-                    {/* Blinking JRPG cursor indicator at the bottom-right */}
-                    <div 
-                      className="absolute bottom-2.5 right-3.5 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[7px] border-t-amber-900 animate-bounce" 
-                      style={{ animationDuration: '0.8s' }} 
-                    />
-                  </div>
-
-                  {/* Generative confirmation feedback & timestamp */}
-                  <div className="w-full flex items-center justify-between mt-1.5 px-1">
-                    {msg.activeComponent ? (
-                      <div className="flex items-center gap-1 text-[9px] font-mono text-indigo-400/90 font-medium tracking-wide">
-                        <Terminal className="w-3 h-3 text-indigo-400 animate-pulse" />
-                        <span>Viewport: {msg.activeComponent}</span>
-                      </div>
-                    ) : (
-                      <div />
-                    )}
-                    <span className="text-[9px] text-slate-600 font-mono">{msg.timestamp}</span>
-                  </div>
-                </div>
-              </div>
-            );
-          }
-        })}
-
-        {/* Dynamic Loading Bubble */}
-        {isLoading && (
-          <div className="flex flex-col max-w-[85%] mr-auto items-start">
-            <div className="p-3.5 rounded-2xl bg-slate-900/60 text-slate-400 border border-slate-850/60 rounded-bl-none flex items-center gap-2.5">
-              <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-400" />
-              <span className="text-xs font-medium animate-pulse">{loadingPhrase}</span>
+        {/* Scrollable Chat Stream Container (Right Pane) */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          
+          {/* Mobile Header Projection Bar (Sticky on Mobile) */}
+          <div className="md:hidden flex items-center gap-3 px-4 py-2.5 border-b border-slate-900 bg-slate-950/50 backdrop-blur-md relative overflow-hidden select-none pointer-events-none shrink-0">
+            <div className="absolute inset-0 cyber-scanline opacity-5" />
+            <div className="laser-scanner-line" />
+            <div className="w-11 h-11 rounded-lg border border-indigo-500/25 bg-slate-950/60 flex items-center justify-center overflow-hidden shrink-0">
+              <img
+                src={avatarUrl}
+                alt="AI Portrait"
+                className="max-w-[85%] max-h-[85%] object-contain drop-shadow-[0_0_8px_rgba(99,102,241,0.25)]"
+              />
+            </div>
+            <div>
+              <span className="text-[8px] font-mono text-indigo-400 font-bold uppercase tracking-wider block">AI CO-PILOT STATUS</span>
+              <span className="text-xs font-semibold text-slate-200">Alison :: State: {currentExpression}</span>
             </div>
           </div>
-        )}
 
-        <div ref={chatEndRef} />
+          {/* Chat Messages Log */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-indigo-900/35 scrollbar-track-transparent">
+            {chatHistory.map((msg) => {
+              if (msg.role === 'user') {
+                return (
+                  <div
+                    key={msg.id}
+                    className="flex flex-col max-w-[85%] ml-auto items-end"
+                  >
+                    <div className="p-3.5 rounded-2xl text-xs leading-relaxed bg-gradient-to-r from-indigo-600 to-purple-650 border border-indigo-500/20 text-white rounded-br-none shadow-lg shadow-indigo-600/10">
+                      {msg.text}
+                    </div>
+                    <span className="text-[9px] text-slate-650 font-mono mt-1 px-1">{msg.timestamp}</span>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={msg.id}
+                    className="w-full pt-2 pb-2"
+                  >
+                    <div className="relative">
+                      {/* Cyber dialogue block (no avatars inside history log) */}
+                      <div className="w-full min-h-[54px] p-3.5 bg-indigo-950/15 text-indigo-100 border border-indigo-500/25 rounded-xl rounded-bl-none shadow-[0_0_12px_rgba(99,102,241,0.05)] relative flex flex-col justify-center">
+                        <p className="text-xs font-semibold leading-relaxed font-sans">
+                          {msg.text.replace(/\[[a-zA-Z0-9_\s-]+\]/g, '').trim()}
+                        </p>
+                        
+                        {/* Terminal retro blinking prompt block */}
+                        <div className="absolute bottom-2.5 right-3.5 w-1.5 h-3 bg-indigo-500/80 animate-pulse" />
+                      </div>
+
+                      {/* Viewport indicators */}
+                      <div className="w-full flex items-center justify-between mt-1 px-1 text-[8px] font-mono text-slate-600">
+                        {msg.activeComponent ? (
+                          <div className="flex items-center gap-1 text-indigo-400/80 tracking-wider">
+                            <Terminal className="w-2.5 h-2.5 text-indigo-450 animate-pulse" />
+                            <span>Viewport: {msg.activeComponent}</span>
+                          </div>
+                        ) : (
+                          <div />
+                        )}
+                        <span>{msg.timestamp}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
+
+            {/* Dynamic Loading Bubble */}
+            {isLoading && (
+              <div className="flex flex-col max-w-[85%] mr-auto items-start">
+                <div className="p-3.5 rounded-2xl bg-slate-900/40 text-slate-400 border border-slate-900/60 rounded-bl-none flex items-center gap-2.5 backdrop-blur-sm shadow-md">
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-400" />
+                  <span className="text-xs font-medium animate-pulse font-mono">{loadingPhrase}</span>
+                </div>
+              </div>
+            )}
+
+            <div ref={chatEndRef} />
+          </div>
+        </div>
       </div>
 
       {/* Suggested chips panel */}
       {chatHistory.length <= 1 && !isLoading && (
-        <div className="px-4 py-2 border-t border-slate-900 bg-slate-950/80 space-y-2">
-          <h4 className="text-[9px] uppercase tracking-wider font-mono text-slate-500 font-bold">Suggested Prompt Integrations</h4>
+        <div className="px-4 py-3 border-t border-slate-900 bg-slate-950/70 space-y-2 backdrop-blur-sm">
+          <h4 className="text-[9px] uppercase tracking-wider font-mono text-slate-500 font-bold">Suggested Command Injections</h4>
           <div className="flex flex-wrap gap-1.5">
             {SUGGESTED_PROMPTS.map((prompt, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(prompt)}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-850 text-slate-400 hover:text-slate-200 border border-slate-850 hover:border-slate-800 text-[11px] font-medium transition-all text-left flex items-center gap-1"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-indigo-300 border border-slate-800 hover:border-indigo-500/30 text-[10px] font-mono transition-all text-left flex items-center gap-1 cursor-pointer"
               >
                 <span>{prompt}</span>
-                <ArrowRight className="w-2.5 h-2.5 text-slate-500 shrink-0" />
+                <ArrowRight className="w-2.5 h-2.5 text-slate-600 shrink-0" />
               </button>
             ))}
           </div>
@@ -324,20 +358,20 @@ export default function ChatPanel({
           e.preventDefault();
           handleSendMessage(inputText);
         }}
-        className="p-3 bg-slate-900/50 border-t border-slate-850 flex gap-2"
+        className="p-3 bg-slate-950/80 border-t border-slate-900/60 flex gap-2 backdrop-blur-sm shrink-0"
       >
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Ask Hans' AI about his projects, skills..."
+          placeholder="Inject command or ask Alison about systems..."
           disabled={isLoading}
-          className="flex-1 bg-slate-950 text-white text-xs px-3 py-2 rounded-xl border border-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500 disabled:opacity-50"
+          className="flex-1 bg-slate-900/50 text-white text-xs px-3.5 py-2.5 rounded-xl border border-slate-850 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500 disabled:opacity-50 font-sans"
         />
         <button
           type="submit"
           disabled={!inputText.trim() || isLoading}
-          className="p-2 bg-indigo-500 hover:bg-indigo-600 disabled:bg-slate-800 hover:disabled:bg-slate-800 text-white rounded-xl transition-colors shrink-0 disabled:opacity-40"
+          className="p-2.5 bg-indigo-650 hover:bg-indigo-700 disabled:bg-slate-900 hover:disabled:bg-slate-900 text-white rounded-xl transition-colors shrink-0 disabled:opacity-40 shadow-md shadow-indigo-600/10 cursor-pointer"
         >
           <Send className="w-4 h-4" />
         </button>

@@ -4,6 +4,8 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import visitHandler from "./api/visit";
+import visitsHandler from "./api/visits";
 
 // Load environment variables
 dotenv.config();
@@ -211,6 +213,12 @@ async function startServer() {
     const submissions = getMessages();
     res.json(submissions);
   });
+
+  // API Route: Record a visit
+  app.post("/api/visit", visitHandler as any);
+
+  // API Route: Retrieve visits stats
+  app.get("/api/visits", visitsHandler as any);
 
   // API Route: Text to Speech (ElevenLabs integration with Google Translate fallback)
   function detectLanguage(text: string): string {
