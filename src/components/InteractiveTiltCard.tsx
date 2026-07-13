@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface InteractiveTiltCardProps {
   children: React.ReactNode;
@@ -14,9 +14,22 @@ export default function InteractiveTiltCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // Detect touch screens to disable tilt shifts that cause flickering on mobile
+    const checkTouch = () => {
+      const hasTouch = 
+        ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        window.matchMedia('(pointer: coarse)').matches;
+      setIsTouchDevice(hasTouch);
+    };
+    checkTouch();
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (isTouchDevice || !cardRef.current) return;
     
     const card = cardRef.current;
     const rect = card.getBoundingClientRect();
@@ -36,6 +49,7 @@ export default function InteractiveTiltCard({
   };
 
   const handleMouseEnter = () => {
+    if (isTouchDevice) return;
     setIsHovered(true);
   };
 
@@ -44,15 +58,18 @@ export default function InteractiveTiltCard({
     setCoords({ x: 0, y: 0 });
   };
 
+  // Only apply tilt on non-touch devices
+  const activeHover = isHovered && !isTouchDevice;
+
   // Max tilt angle (degrees)
   const maxTilt = 12;
-  const rotateY = isHovered ? coords.x * maxTilt : 0;
+  const rotateY = activeHover ? coords.x * maxTilt : 0;
   // Invert rotateX so hovering near top tilts it forward
-  const rotateX = isHovered ? -coords.y * maxTilt : 0;
+  const rotateX = activeHover ? -coords.y * maxTilt : 0;
 
   // Reflection/Sheen effect position
-  const sheenX = isHovered ? (coords.x + 0.5) * 100 : 50;
-  const sheenY = isHovered ? (coords.y + 0.5) * 100 : 50;
+  const sheenX = activeHover ? (coords.x + 0.5) * 100 : 50;
+  const sheenY = activeHover ? (coords.y + 0.5) * 100 : 50;
 
   return (
     <div
@@ -61,10 +78,10 @@ export default function InteractiveTiltCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${isHovered ? 1.02 : 1})`,
-        transition: isHovered ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
+        transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${activeHover ? 1.02 : 1})`,
+        transition: activeHover ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
         transformStyle: 'preserve-3d',
-        boxShadow: isHovered 
+        boxShadow: activeHover 
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px ${glowColor}`
           : '0 15px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0px transparent'
       }}
@@ -74,7 +91,7 @@ export default function InteractiveTiltCard({
       <div
         className="absolute inset-0 pointer-events-none z-30 transition-opacity duration-350"
         style={{
-          opacity: isHovered ? 0.45 : 0,
+          opacity: activeHover ? 0.45 : 0,
           background: `radial-gradient(circle at ${sheenX}% ${sheenY}%, rgba(255, 255, 255, 0.15) 0%, transparent 60%)`,
         }}
       />
@@ -83,7 +100,7 @@ export default function InteractiveTiltCard({
       <div className="absolute inset-0 border border-white/10 rounded-[inherit] pointer-events-none z-20" />
 
       {/* Main Content (Make sure it supports preserve-3d) */}
-      <div className="h-full w-full select-none" style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }}>
+      <div className="h-full w-full select-none" style={{ transform: activeHover ? 'translateZ(20px)' : 'none', transformStyle: 'preserve-3d' }}>
         {children}
       </div>
     </div>
