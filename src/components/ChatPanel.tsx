@@ -193,9 +193,9 @@ export default function ChatPanel({
             type="button"
             onClick={onToggleWorkspace}
             className="text-[10px] font-mono text-indigo-400 hover:text-indigo-300 uppercase tracking-wider transition-colors flex items-center gap-1 hover:bg-slate-900/50 px-2 py-0.5 rounded border border-indigo-500/20 cursor-pointer font-bold"
-            title={isWorkspaceVisible ? "Hide Information Panel" : "Show Information Panel"}
+            title="Minimize Chat Panel"
           >
-            {isWorkspaceVisible ? "[Hide Info]" : "[Show Info]"}
+            [Minimize]
           </button>
           <span className="text-slate-800">|</span>
           <button

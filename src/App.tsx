@@ -17,6 +17,23 @@ import CertificatesView from './components/CertificatesView';
 import BlogView from './components/BlogView';
 import SandboxView from './components/SandboxView';
 
+const getAvatarUrl = (expression: string) => {
+  switch (expression) {
+    case 'happy':
+      return '/images/avatar_expression/smile_greeting.png';
+    case 'excited':
+      return '/images/avatar_expression/exited.png';
+    case 'thinking':
+      return '/images/avatar_expression/thinking.png';
+    case 'surprised':
+      return '/images/avatar_expression/suprised.png';
+    case 'explaining':
+      return '/images/avatar_expression/explain.png';
+    default:
+      return '/images/avatar_expression/neutral.png';
+  }
+};
+
 export default function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('portfolio_theme') as 'dark' | 'light') || 'dark';
@@ -30,6 +47,7 @@ export default function App() {
 
   const [showLanding, setShowLanding] = useState<boolean>(true);
   const [isWorkspaceVisible, setIsWorkspaceVisible] = useState<boolean>(true);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(true);
   // Generative state managed live
   const [activeView, setActiveView] = useState<string>('home');
   const [viewProps, setViewProps] = useState<any>({});
@@ -464,7 +482,7 @@ export default function App() {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
-                  onClick={() => { setShowLanding(false); setIsWorkspaceVisible(true); }}
+                  onClick={() => { setShowLanding(false); setIsWorkspaceVisible(true); setIsChatOpen(true); }}
                   className="flex-1 sm:flex-none px-6 py-3 text-xs font-mono font-bold uppercase rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600 text-white shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 group cursor-pointer border border-cyan-400/30"
                 >
                   [ACTIVATE_CO_PILOT_DECK]
@@ -627,12 +645,12 @@ export default function App() {
       </div>
 
       {/* Split Stage Workspace */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-3 md:p-6">
+      <main className="flex-1 max-w-5xl w-full mx-auto p-3 md:p-6 pb-28 relative z-10">
 
         {/* Chat-only mode */}
         {!isWorkspaceVisible && (
-          <div className="flex justify-center items-start pt-3">
-            <div className="w-full max-w-2xl h-[calc(100vh-160px)] min-h-[400px] max-h-[750px] flex flex-col">
+          <div className="flex justify-center items-start pt-6">
+            <div className="w-full max-w-2xl h-[calc(100vh-160px)] min-h-[400px] max-h-[750px] flex flex-col shadow-2xl rounded-2xl overflow-hidden">
               <ChatPanel
                 onUpdateComponent={handleUpdateComponent}
                 chatHistory={chatHistory}
@@ -645,28 +663,14 @@ export default function App() {
           </div>
         )}
 
-        {/* Split-screen mode */}
+        {/* Full-width Workspace Panel mode */}
         {isWorkspaceVisible && (
-          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4 md:gap-6 items-start">
-
-            {/* Chat Panel */}
-            <div className="w-full lg:col-span-5 lg:sticky lg:top-[72px] h-[380px] sm:h-[440px] lg:h-[calc(100vh-130px)] lg:max-h-[750px] flex flex-col">
-              <ChatPanel
-                onUpdateComponent={handleUpdateComponent}
-                chatHistory={chatHistory}
-                onAddMessage={handleAddMessage}
-                onClearHistory={handleClearHistory}
-                isWorkspaceVisible={isWorkspaceVisible}
-                onToggleWorkspace={() => setIsWorkspaceVisible(!isWorkspaceVisible)}
-              />
-            </div>
-
-            {/* Workspace Panel */}
+          <div className="w-full">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
-              className="w-full lg:col-span-7 p-3 md:p-5 rounded-2xl bg-slate-950 border border-slate-800/80 shadow-xl min-h-[300px] overflow-y-auto"
+              className="w-full min-h-[500px]"
             >
               <AnimatePresence mode="wait">
                 <div key={activeView}>
@@ -677,6 +681,53 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* Floating Collapsible Chat Panel Widget */}
+      {isWorkspaceVisible && (
+        <AnimatePresence>
+          {isChatOpen ? (
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 50, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="fixed bottom-6 right-6 w-[430px] h-[580px] max-w-[calc(100vw-32px)] max-h-[calc(100vh-120px)] z-50 flex flex-col shadow-2xl rounded-2xl overflow-hidden"
+            >
+              <ChatPanel
+                onUpdateComponent={handleUpdateComponent}
+                chatHistory={chatHistory}
+                onAddMessage={handleAddMessage}
+                onClearHistory={handleClearHistory}
+                isWorkspaceVisible={isChatOpen}
+                onToggleWorkspace={() => setIsChatOpen(false)}
+              />
+            </motion.div>
+          ) : (
+            /* Miniature Floating Action Button (FAB) */
+            <motion.button
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              onClick={() => setIsChatOpen(true)}
+              className="fixed bottom-6 right-6 z-50 p-2 rounded-full bg-slate-950/90 border border-indigo-500/40 hover:border-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all cursor-pointer flex items-center gap-2 group"
+            >
+              <div className="w-12 h-12 rounded-full border border-indigo-500/30 bg-slate-900/60 flex items-center justify-center overflow-hidden relative shrink-0">
+                <img
+                  src={getAvatarUrl(currentExpression)}
+                  alt="Alison Portrait"
+                  className="max-w-[85%] max-h-[85%] object-contain animate-float"
+                />
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-950 flex items-center justify-center">
+                  <span className="w-1 h-1 bg-white rounded-full animate-pulse"></span>
+                </div>
+              </div>
+              <div className="pr-3 text-left">
+                <span className="text-[8px] font-mono text-indigo-400 font-bold uppercase tracking-wider block">AI CO-PILOT</span>
+                <span className="text-[10px] font-mono text-slate-300 font-semibold group-hover:text-indigo-300 transition-colors uppercase">[TALK_TO_ALISON]</span>
+              </div>
+            </motion.button>
+          )}
+        </AnimatePresence>
+      )}
 
       {/* Footer */}
       <footer className="border-t border-slate-900/60 bg-slate-950 py-3 px-4 md:px-6 flex flex-col sm:flex-row items-center justify-between text-[10px] md:text-[11px] text-slate-600 font-mono gap-2">
