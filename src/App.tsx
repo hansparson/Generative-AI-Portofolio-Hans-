@@ -686,16 +686,16 @@ export default function App() {
       {isWorkspaceVisible && (
         <AnimatePresence>
           {isChatOpen ? (
-            /* Flex Wrapper for Avatar (Left) and Chat Panel (Right) - Centered Vertically on the Right */
-            <div className="fixed right-8 top-[52%] -translate-y-[50%] z-50 flex items-center gap-6 pointer-events-none">
+            /* Flex Wrapper for Avatar (Top) and Chat Panel (Bottom) - Centered Vertically on the Right */
+            <div className="fixed right-8 top-[50%] -translate-y-[50%] z-50 flex flex-col items-center gap-4 pointer-events-none">
               
-              {/* Holographic Floating Companion (No Card borders/bg, large image) */}
+              {/* Holographic Floating Companion (No Card borders/bg, large image on top) */}
               <motion.div
-                initial={{ opacity: 0, x: 30, scale: 0.9 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 30, scale: 0.9 }}
+                initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className="hidden md:flex flex-col items-center justify-center w-[230px] h-[380px] relative pointer-events-auto select-none"
+                className="hidden md:flex flex-col items-center justify-center w-[200px] h-[220px] relative pointer-events-auto select-none"
               >
                 {/* Scrolling scanner line over transparent hologram */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
@@ -719,18 +719,18 @@ export default function App() {
                 />
 
                 {/* Minimal HUD state readout */}
-                <div className="absolute bottom-[-15px] px-2.5 py-0.5 bg-indigo-950/40 border border-indigo-500/20 rounded text-[7px] font-mono text-indigo-400 uppercase tracking-widest backdrop-blur-sm shadow-md">
+                <div className="absolute bottom-[-10px] px-2.5 py-0.5 bg-indigo-950/40 border border-indigo-500/20 rounded text-[7px] font-mono text-indigo-400 uppercase tracking-widest backdrop-blur-sm shadow-md">
                   HOLOGRAM_AGENT::{currentExpression.toUpperCase()}
                 </div>
               </motion.div>
 
-              {/* Chat Panel Box */}
+              {/* Chat Panel Box (Bottom) */}
               <motion.div
-                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 50, scale: 0.95 }}
+                exit={{ opacity: 0, y: 30, scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="w-[380px] h-[550px] max-w-[calc(100vw-32px)] max-h-[calc(100vh-120px)] flex flex-col shadow-2xl rounded-2xl overflow-hidden pointer-events-auto"
+                className="w-[370px] h-[480px] max-w-[calc(100vw-32px)] max-h-[calc(100vh-260px)] flex flex-col shadow-2xl rounded-2xl overflow-hidden pointer-events-auto"
               >
                 <ChatPanel
                   onUpdateComponent={handleUpdateComponent}
