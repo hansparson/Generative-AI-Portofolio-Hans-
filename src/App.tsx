@@ -682,12 +682,21 @@ export default function App() {
         )}
       </main>
 
+      {/* Mobile/Tablet Backdrop Overlay (Hides on Desktop 'lg' and up) */}
+      {isWorkspaceVisible && isChatOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-[2px] z-40 lg:hidden pointer-events-auto cursor-pointer"
+          onClick={() => setIsChatOpen(false)}
+          title="Minimize Chat"
+        />
+      )}
+
       {/* Floating Collapsible Chat Panel Widget */}
       {isWorkspaceVisible && (
         <AnimatePresence>
           {isChatOpen ? (
-            /* Flex Wrapper for Avatar (Top) and Chat Panel (Bottom) - Centered Vertically on the Right */
-            <div className="fixed right-8 top-[50%] -translate-y-[50%] z-50 flex flex-col items-center gap-4 pointer-events-none">
+            /* Responsive wrapper: Centered Modal on Mobile/Tablet, Floating Sidebar on Desktop */
+            <div className="fixed left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] lg:left-auto lg:translate-x-0 lg:right-8 lg:top-[50%] lg:-translate-y-[50%] z-50 flex flex-col items-center gap-4 pointer-events-none transition-all duration-300">
               
               {/* Holographic Floating Companion (No Card borders/bg, large image on top) */}
               <motion.div
