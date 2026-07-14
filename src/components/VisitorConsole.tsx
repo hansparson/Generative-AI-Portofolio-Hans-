@@ -133,7 +133,10 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
           <div className={isSidebar ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch"}>
             {/* Left Metrics */}
             <div className={isSidebar ? "w-full" : "md:col-span-4 flex flex-col gap-4"}>
-              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-between h-full min-h-[140px] relative overflow-hidden group">
+              <div className={isSidebar 
+                ? "p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-between h-auto min-h-[140px] relative overflow-hidden group shrink-0" 
+                : "p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-between h-full min-h-[140px] relative overflow-hidden group"
+              }>
                 <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/5 rounded-full blur-xl -z-10 group-hover:bg-orange-500/10 transition-all" />
                 <div className="space-y-3">
                   <div>

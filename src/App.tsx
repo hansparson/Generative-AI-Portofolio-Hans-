@@ -790,7 +790,7 @@ export default function App() {
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: -30, scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="w-[370px] h-[480px] max-w-[calc(100vw-32px)] flex flex-col shadow-2xl rounded-2xl overflow-hidden pointer-events-auto border border-orange-500/20 bg-slate-950/80 backdrop-blur-md animate-glow"
+                className="w-[370px] h-[750px] max-h-[calc(100vh-120px)] max-w-[calc(100vw-32px)] flex flex-col shadow-2xl rounded-2xl overflow-hidden pointer-events-auto border border-orange-500/20 bg-slate-950/80 backdrop-blur-md animate-glow"
               >
                 <VisitorConsole isSidebar={true} onCloseSidebar={() => setIsVisitorOpen(false)} />
               </motion.div>
