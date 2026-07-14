@@ -115,29 +115,62 @@ export default function VisitorConsole() {
             <div className="md:col-span-4 flex flex-col gap-4">
               <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-between h-full min-h-[140px] relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/5 rounded-full blur-xl -z-10 group-hover:bg-orange-500/10 transition-all" />
-                <div>
-                  <span className="text-[9px] uppercase font-mono text-slate-500 font-bold tracking-wider">Total Visitors</span>
-                  <span className="text-3xl font-extrabold text-white tracking-tight mt-1 font-display drop-shadow-[0_0_10px_rgba(249,115,22,0.2)] block">
-                    {data?.totalVisits || 0}
-                  </span>
-                </div>
-                
-                {/* Geolocation Stats list */}
-                {data?.visitsByCountry && data.visitsByCountry.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-slate-900/65 space-y-1.5">
-                    <span className="text-[8px] uppercase font-mono text-slate-500 font-bold tracking-wider block">Top Regions</span>
-                    <div className="space-y-1 max-h-[72px] overflow-y-auto scrollbar-none">
-                      {data.visitsByCountry.slice(0, 3).map((c) => (
-                        <div key={c.countryCode} className="flex items-center justify-between text-[8px] font-mono">
-                          <span className="text-slate-350 truncate max-w-[70%]">{c.countryName}</span>
-                          <span className="text-orange-400 font-semibold">{c.percentage}%</span>
-                        </div>
-                      ))}
-                    </div>
+                <div className="space-y-3">
+                  <div>
+                    <span className="text-[9px] uppercase font-mono text-slate-500 font-bold tracking-wider">Total Visitors</span>
+                    <span className="text-3xl font-extrabold text-white tracking-tight mt-1 font-display drop-shadow-[0_0_10px_rgba(249,115,22,0.2)] block">
+                      {data?.totalVisits || 0}
+                    </span>
                   </div>
-                )}
+                  
+                  {/* Geolocation Stats list */}
+                  {data?.visitsByCountry && data.visitsByCountry.length > 0 && (
+                    <div className="pt-2 border-t border-slate-900/65 space-y-1">
+                      <span className="text-[8px] uppercase font-mono text-slate-550 font-bold tracking-wider block">Top Regions</span>
+                      <div className="space-y-1 max-h-[64px] overflow-y-auto scrollbar-none">
+                        {data.visitsByCountry.slice(0, 3).map((c) => (
+                          <div key={c.countryCode} className="flex items-center justify-between text-[8px] font-mono">
+                            <span className="text-slate-350 truncate max-w-[70%]">{c.countryName}</span>
+                            <span className="text-orange-400 font-semibold">{c.percentage}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                <span className="text-[8px] text-slate-655 font-mono mt-1.5 flex items-center gap-1">
+                  {/* Telemetry Log Trail (Moved from bottom to Left Column) */}
+                  {data?.recentVisits && data.recentVisits.length > 0 && (
+                    <div className="pt-2 border-t border-slate-900/65 space-y-1">
+                      <span className="text-[8px] uppercase font-mono text-slate-550 font-bold tracking-wider flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-orange-450" /> Telemetry Logs
+                      </span>
+                      <div className="space-y-1 max-h-[72px] overflow-y-auto scrollbar-none font-mono text-[7px] text-slate-450">
+                        {data.recentVisits.slice(0, 3).map((visit) => {
+                          const formattedTime = new Date(visit.timestamp).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                          });
+                          
+                          let browser = "Client";
+                          if (visit.userAgent.includes("Chrome")) browser = "Chrome";
+                          else if (visit.userAgent.includes("Safari")) browser = "Safari";
+                          else if (visit.userAgent.includes("Firefox")) browser = "Firefox";
+                          else if (visit.userAgent.includes("Edge")) browser = "Edge";
+
+                          return (
+                            <div key={visit.id} className="flex items-center justify-between hover:text-slate-300 transition-colors">
+                              <span className="truncate max-w-[65%]">&gt; {visit.id}</span>
+                              <span className="text-slate-600 font-semibold">{formattedTime}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <span className="text-[8px] text-slate-655 font-mono mt-1.5 flex items-center gap-1 pt-1.5 border-t border-slate-900/40">
                   <Activity className="w-3 h-3 text-emerald-450" />
                   Live Geolocation Sync
                 </span>
@@ -222,41 +255,6 @@ export default function VisitorConsole() {
           </div>
         )}
       </div>
-
-      {/* Recent Activity Telemetry Log */}
-      {!loading && !error && data && data.recentVisits.length > 0 && (
-        <div className="mt-4 pt-4 border-t border-slate-900 relative z-10">
-          <span className="text-[9px] uppercase font-mono text-slate-500 font-bold tracking-wider flex items-center gap-1.5 mb-2">
-            <Clock className="w-3.5 h-3.5 text-orange-400" /> [TELEMETRY_LOG_TRAIL]
-          </span>
-          <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-900/80 font-mono text-[8px] text-slate-550 space-y-1.5 max-h-24 overflow-y-auto scrollbar-none">
-            {data.recentVisits.map((visit) => {
-              const formattedTime = new Date(visit.timestamp).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-              });
-              
-              let browser = "HTTP Client";
-              if (visit.userAgent.includes("Chrome")) browser = "Chrome";
-              else if (visit.userAgent.includes("Safari")) browser = "Safari";
-              else if (visit.userAgent.includes("Firefox")) browser = "Firefox";
-              else if (visit.userAgent.includes("Edge")) browser = "Edge";
-
-              return (
-                <div key={visit.id} className="flex items-center justify-between hover:text-slate-350 transition-colors">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-orange-500/70">&gt;</span>
-                    <span className="text-slate-400 font-semibold">{visit.id}</span>
-                    <span>logged from {browser}</span>
-                  </div>
-                  <span className="text-slate-650">{formattedTime}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
     </InteractiveTiltCard>
   );
 }
