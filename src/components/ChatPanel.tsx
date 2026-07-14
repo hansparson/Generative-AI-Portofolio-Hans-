@@ -175,20 +175,20 @@ export default function ChatPanel({
   return (
     <div id="chat-panel" className="flex flex-col h-full bg-slate-950/45 border border-slate-900/60 rounded-2xl overflow-hidden relative shadow-2xl backdrop-blur-lg">
       {/* Panel Header */}
-      <div className="px-4 py-3.5 border-b border-slate-900/60 bg-slate-950/50 backdrop-blur-md flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+      <div className="px-4 py-3.5 border-b border-slate-900/60 bg-slate-950/50 backdrop-blur-md flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0">
             <Sparkles className="w-4 h-4 animate-pulse text-indigo-400" />
           </div>
-          <div>
-            <h3 className="text-xs font-semibold font-sans uppercase tracking-wider text-white">Alison - AI Co-Pilot</h3>
-            <p className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Gemini Generative Engine</span>
+          <div className="min-w-0">
+            <h3 className="text-xs font-semibold font-sans uppercase tracking-wider text-white truncate">Alison - AI Co-Pilot</h3>
+            <p className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+              <span className="truncate">Gemini Generative Engine</span>
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             type="button"
             onClick={onToggleWorkspace}
@@ -307,12 +307,12 @@ export default function ChatPanel({
       {chatHistory.length <= 1 && !isLoading && (
         <div className="px-4 py-3 border-t border-slate-900 bg-slate-950/70 space-y-2 backdrop-blur-sm">
           <h4 className="text-[9px] uppercase tracking-wider font-mono text-slate-500 font-bold">Suggested Command Injections</h4>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex overflow-x-auto gap-1.5 pb-1.5 scrollbar-none">
             {SUGGESTED_PROMPTS.map((prompt, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(prompt)}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-indigo-300 border border-slate-800 hover:border-indigo-500/30 text-[10px] font-mono transition-all text-left flex items-center gap-1 cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-indigo-300 border border-slate-800 hover:border-indigo-500/30 text-[10px] font-mono transition-all text-left flex items-center gap-1 cursor-pointer shrink-0 whitespace-nowrap"
               >
                 <span>{prompt}</span>
                 <ArrowRight className="w-2.5 h-2.5 text-slate-600 shrink-0" />
