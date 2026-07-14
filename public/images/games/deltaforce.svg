@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="1230.642"
+   height="652.94501"
+   viewBox="0 0 1230.642 652.94501"
+   sodipodi:docname="Delta_Force.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true"
+     inkscape:zoom="0.87164229"
+     inkscape:cx="637.30271"
+     inkscape:cy="357.37137"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer3" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Logo"
+     inkscape:highlight-color="#808080"
+     style="fill:#000000"
+     transform="translate(-1.3456434,-1.7633789e-4)">
+    <g
+       inkscape:groupmode="layer"
+       id="layer1"
+       inkscape:label="Wordmark"
+       inkscape:highlight-color="#0000ff">
+      <path
+         id="rect23"
+         style="opacity:1;fill:#000000;fill-opacity:1;stroke-width:1.23219"
+         d="m 876.13769,543.65625 v 109.28906 h 32.55273 v -82.24219 h 41.21485 v -0.002 c 3.53844,0 5.92773,2.20332 5.92773,4.79492 v 9.9375 c -10e-6,2.5916 -2.38929,4.79493 -5.92773,4.79493 h -41.21485 l 42.2793,62.71679 h 35.20898 l -26.80664,-39.76562 c 20.45098,-1.20778 26.80664,-17.44355 26.80664,-26.9668 v -15.51172 c 0,-9.89511 -6.85356,-27.04492 -29.25976,-27.04492 z m -372.00503,0.002 -62.52539,108.84571 h 36.13867 l 36.33399,-63.25196 20.79883,36.20703 h -19.99805 l -15.53516,27.04493 h 51.06836 36.13867 L 524.02719,543.6582 Z m 604.03494,0 v 27.04492 h -71.7578 c -3.5385,0 -5.9278,2.20333 -5.9278,4.79493 v 45.60742 c 0,2.5916 2.3893,4.79492 5.9278,4.79492 h 71.7578 v 27.04492 h -92.2422 c -10.0565,0 -18.3535,-10.45903 -18.3535,-16.80469 v -75.67773 c 0,-6.34565 8.297,-16.80469 18.3535,-16.80469 z m 13.2244,0 v 109.28711 h 110.5957 v -27.04492 h -78.041 v -16.08398 h 59.6855 v -23.0293 h -59.6855 v -16.08399 h 78.041 V 543.6582 Z m -486.85309,0 v 109.28711 h 32.55469 v -43.1289 h 58.23633 v -23.0293 H 667.0936 v -16.08404 h 67.41406 V 543.6582 Z m -292.15039,0 v 27.04492 h 43.03711 v 82.24219 h 32.55274 v -82.24219 h 43.03711 V 543.6582 Z m -83.24609,-0.28681 V 652.6585 h 102.2793 v -27.04492 h -69.72656 v -82.24219 z m -125.54102,0.28681 V 652.94536 H 244.19712 V 625.90044 H 166.1561 v -16.08398 h 59.68555 v -23.0293 H 166.1561 v -16.08399 h 78.04102 V 543.6582 Z m -132.2558554,0 V 652.94531 H 100.30258 c 10.0565,0 18.35352,-10.45903 18.35352,-16.80469 v -75.67773 c 0,-6.34565 -8.29702,-16.80469 -18.35352,-16.80469 z m 32.5546874,27.04487 h 45.917969 c 3.538439,0 5.927734,2.20333 5.927734,4.79493 v 45.60742 c 0,2.5916 -2.389294,4.79492 -5.927734,4.79492 H 33.900242 Z M 763.54656,543.6582 c -10.0565,0 -18.35351,10.45904 -18.35351,16.80469 v 75.67773 c 0,6.34566 8.29701,16.80469 18.35351,16.80469 h 80.95899 c 10.0565,0 18.35351,-10.45903 18.35351,-16.80469 v -75.67773 c 0,-6.34565 -8.29701,-16.80469 -18.35351,-16.80469 z m 20.48438,27.04492 h 39.99023 c 3.53844,0 5.92774,2.20332 5.92774,4.79492 v 45.60743 c 0,2.5916 -2.3893,4.79492 -5.92774,4.79492 h -39.99023 c -3.53844,0 -5.92774,-2.20332 -5.92774,-4.79492 v -45.60743 c 0,-2.5916 2.3893,-4.79492 5.92774,-4.79492 z"
+         inkscape:label="DELTA FORCE" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer2"
+       inkscape:label="Emblem"
+       inkscape:highlight-color="#ff0000">
+      <path
+         id="path1"
+         style="opacity:1;fill:#0ff796;fill-opacity:1;stroke-width:2.3427"
+         inkscape:transform-center-y="-80.792772"
+         d="M 616.66565,0 336.7926,484.75586 H 896.54065 L 799.62854,316.90234 671.49572,94.966797 629.04065,168.5 543.36096,316.90234 h 59.03125 l -46.5332,80.59571 94.23828,-80.59571 35.81836,-30.63281 h -58.23047 l 33.99609,-58.88281 30.76953,53.29297 0.0176,0.0273 22.25195,36.19531 54.45703,94.32032 H 464.15588 L 616.66565,147.06641 Z"
+         inkscape:label="Emblem (Delta Force)"
+         inkscape:export-filename="D:\My Art\Fanart\Delta Force\DeltaForce_Logo(Emblem).svg"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+    </g>
+  </g>
+</svg>

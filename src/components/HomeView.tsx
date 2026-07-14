@@ -273,41 +273,28 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                     name: 'Valorant', 
                     color: 'hover:border-[#FF4655]/40 hover:text-[#FF4655] hover:bg-[#FF4655]/5',
                     icon: (
-                      <svg className="w-3.5 h-3.5 shrink-0 text-[#FF4655]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M4 4h4.5L16.5 20H12L4 4zm11.5 0h4.5L13 11h-4.5l7-7z" />
-                      </svg>
+                      <img src="/images/games/valorant.svg" alt="Valorant" className="w-3.5 h-3.5 object-contain shrink-0 filter brightness-95" />
                     )
                   },
                   { 
                     name: 'Dota 2', 
                     color: 'hover:border-[#F55343]/40 hover:text-[#F55343] hover:bg-[#F55343]/5',
                     icon: (
-                      <svg className="w-3.5 h-3.5 shrink-0 text-[#F55343]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M4 20L20 4h2v2L6 22H4v-2z" />
-                        <path d="M14 6h6v6l-6-6z" />
-                        <path d="M6 14v6h6l-6-6z" />
-                      </svg>
+                      <img src="/images/games/dota2.svg" alt="Dota 2" className="w-3.5 h-3.5 object-contain shrink-0 filter brightness-95" />
                     )
                   },
                   { 
                     name: 'CS2', 
                     color: 'hover:border-[#DE9B35]/40 hover:text-[#DE9B35] hover:bg-[#DE9B35]/5',
                     icon: (
-                      <svg className="w-3.5 h-3.5 shrink-0 text-[#DE9B35]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                        <circle cx="12" cy="12" r="7" />
-                        <circle cx="12" cy="12" r="2.5" fill="currentColor" />
-                        <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
-                      </svg>
+                      <img src="/images/games/cs2.svg" alt="CS2" className="w-3.5 h-3.5 object-contain shrink-0 filter brightness-95" />
                     )
                   },
                   { 
                     name: 'Delta Force', 
                     color: 'hover:border-[#D4AF37]/40 hover:text-[#D4AF37] hover:bg-[#D4AF37]/5',
                     icon: (
-                      <svg className="w-3.5 h-3.5 shrink-0 text-[#D4AF37]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 3L2 20h20L12 3zm0 4.5l6.5 10.5H5.5L12 7.5z" />
-                        <path d="M11 9h2v5h-2V9zm0 6h2v2h-2v-2z" />
-                      </svg>
+                      <img src="/images/games/deltaforce.svg" alt="Delta Force" className="w-3.5 h-3.5 object-contain shrink-0 filter brightness-95" />
                     )
                   }
                 ].map((game, i) => (
@@ -315,7 +302,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                     key={i} 
                     className={`p-1.5 rounded-lg bg-slate-950/80 border border-slate-900 text-slate-350 text-[11px] font-mono tracking-wide flex items-center justify-between transition-all duration-300 hover:scale-[1.02] cursor-default ${game.color}`}
                   >
-                    <div className="flex items-center gap-1.5 min-w-0">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       {game.icon}
                       <span className="truncate">{game.name}</span>
                     </div>
