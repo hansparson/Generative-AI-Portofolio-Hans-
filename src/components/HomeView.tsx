@@ -46,7 +46,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         >
           {/* Card telemetry scan lines */}
           <div className="absolute inset-0 cyber-scanline opacity-5" />
-          <div className="absolute top-2 right-2 text-[7px] font-mono text-indigo-500/60">[SYS_FILE::H_PARSON]</div>
+          <div className="absolute top-2 right-2 text-[9px] font-mono text-indigo-500/60">[SYS_FILE::H_PARSON]</div>
 
           <div className="space-y-4 relative z-10">
             <div className="relative w-20 h-20 mx-auto md:w-24 md:h-24 shrink-0 rounded-xl overflow-hidden border border-indigo-500/20 bg-slate-950/40 p-1">
@@ -60,8 +60,8 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
               <h3 className="text-base font-bold text-white font-display tracking-tight flex items-center justify-center gap-1">
                 Hans Parson
               </h3>
-              <p className="text-[10px] text-indigo-400 font-mono tracking-wider">PORTAL_AGENT::ID_013</p>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[9px] text-indigo-300 font-mono uppercase tracking-wider mt-1">
+              <p className="text-[11px] text-indigo-400 font-mono tracking-wider">PORTAL_AGENT::ID_013</p>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[10px] sm:text-[11px] text-indigo-300 font-mono uppercase tracking-wider mt-1">
                 <Shield className="w-2.5 h-2.5 text-indigo-400" />
                 IoT Specialist
               </div>
@@ -70,16 +70,16 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
 
           {/* Barcode & Metadata Section */}
           <div className="space-y-3 pt-4 border-t border-slate-900 mt-4 relative z-10">
-            <div className="space-y-1.5 text-[10px] font-mono text-slate-400">
+            <div className="space-y-1.5 text-[11px] font-mono text-slate-400">
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">LOC:</span>
-                <span className="flex items-center gap-1 text-slate-350">
+                <span className="text-slate-555">LOC:</span>
+                <span className="flex items-center gap-1 text-slate-300">
                   <MapPin className="w-3 h-3 text-indigo-400" /> Jakarta, ID
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">NET:</span>
-                <span className="text-slate-350 truncate max-w-[140px]" title="hansparson013@gmail.com">
+                <span className="text-slate-555">NET:</span>
+                <span className="text-slate-300 truncate max-w-[140px]" title="hansparson013@gmail.com">
                   hansparson013@gmail.com
                 </span>
               </div>
@@ -92,7 +92,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                   <div key={i} style={{ flexGrow: w }} className="bg-indigo-400 h-full rounded-[0.5px]" />
                 ))}
               </div>
-              <span className="text-[7px] font-mono text-indigo-500/60 tracking-[4px] mt-1">6281288467764</span>
+              <span className="text-[9px] font-mono text-indigo-500/60 tracking-[4px] mt-1">6281288467764</span>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -z-10" />
           
           <div className="space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-mono border border-indigo-500/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[11px] font-mono border border-indigo-500/20">
               <Terminal className="w-3.5 h-3.5 animate-pulse" />
               <span>[CORE_METRIC::SYS_ARCHITECT]</span>
             </div>
@@ -135,11 +135,11 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
             </p>
           </div>
           
-          <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-900 relative z-10 text-[10px] font-mono text-slate-500">
+          <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-900 relative z-10 text-[11px] font-mono text-slate-400">
             <span className="flex items-center gap-1"><Radio className="w-3.5 h-3.5 text-emerald-400" /> Mesh active</span>
             <button
               onClick={() => onNavigate('projects')}
-              className="px-3.5 py-1.5 text-[10px] font-mono font-bold uppercase rounded-lg bg-slate-900 hover:bg-slate-800 text-indigo-400 hover:text-indigo-300 border border-slate-800 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-[11px] font-mono font-bold uppercase rounded-lg bg-slate-900 hover:bg-slate-800 text-indigo-400 hover:text-indigo-300 border border-slate-800 transition-colors cursor-pointer"
             >
               [LAUNCH_WORKSPACE]
             </button>
@@ -154,12 +154,12 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold flex items-center gap-1.5">
+              <h4 className="text-[11px] sm:text-xs uppercase tracking-wider font-mono text-slate-400 font-bold flex items-center gap-1.5">
                 <Terminal className="w-3.5 h-3.5 text-indigo-400" /> [WORKSPACE_LOG::FEATURED_WORK]
               </h4>
               <button
                 onClick={() => onNavigate('projects')}
-                className="text-[9px] uppercase font-mono font-bold text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer"
+                className="text-[10px] sm:text-[11px] uppercase font-mono font-bold text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer"
               >
                 [OPEN_ARCHIVE]
               </button>
@@ -169,23 +169,23 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                 <div key={idx} className="p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-between hover:border-indigo-500/20 hover:shadow-[0_0_15px_rgba(99,102,241,0.05)] transition-all h-full group">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[8px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-350 border border-indigo-500/20 uppercase">
+                      <span className="text-[9px] sm:text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-350 border border-indigo-500/20 uppercase">
                         {project.category}
                       </span>
                     </div>
                     <h5 className="text-xs font-bold font-display text-white group-hover:text-indigo-300 transition-colors">{project.title}</h5>
-                    <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-sans">{project.description}</p>
+                    <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed font-sans">{project.description}</p>
                   </div>
                   <div className="flex flex-wrap gap-1 mt-3 pt-3 border-t border-slate-900">
                     {project.tech.slice(0, 3).map((t, i) => (
-                      <span key={i} className="text-[8px] font-mono text-slate-650 font-medium">{t}</span>
+                      <span key={i} className="text-[9px] sm:text-[10px] font-mono text-slate-500 font-medium">{t}</span>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-slate-900 flex items-center justify-between text-[9px] text-slate-600 font-mono relative z-10">
+          <div className="mt-4 pt-4 border-t border-slate-900 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500 font-mono relative z-10">
             <span>LLM compiler dynamically formats Workspace parameters.</span>
             <span className="flex items-center gap-1 text-indigo-400/80"><Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" /> GEN_UI::ACTIVE</span>
           </div>
@@ -196,10 +196,10 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-3.5">
-              <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_METRIC::SKILL_MATRIX]</h4>
+              <h4 className="text-[11px] sm:text-xs uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_METRIC::SKILL_MATRIX]</h4>
               <button
                 onClick={() => onNavigate('skills')}
-                className="text-[9px] uppercase font-mono font-bold text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer"
+                className="text-[10px] sm:text-[11px] uppercase font-mono font-bold text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer"
               >
                 [EXPAND]
               </button>
@@ -216,14 +216,14 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                         : 'bg-slate-950/60 border-slate-900/50 hover:border-slate-800 text-slate-350'
                     }`}
                   >
-                    <span className="text-[11px] font-sans font-medium">{skill.name}</span>
-                    <span className="text-[10px] font-mono font-semibold opacity-70">{skill.level}%</span>
+                    <span className="text-xs sm:text-[13px] font-sans font-medium">{skill.name}</span>
+                    <span className="text-[11px] sm:text-xs font-mono font-semibold opacity-70">{skill.level}%</span>
                   </div>
                 );
               })}
             </div>
           </div>
-          <div className="text-[10px] font-mono text-slate-650 leading-relaxed pt-2 border-t border-slate-900 relative z-10">
+          <div className="text-[11px] font-mono text-slate-500 leading-relaxed pt-2 border-t border-slate-900 relative z-10">
             Index metrics represent verified pipeline integrations.
           </div>
         </div>
@@ -243,18 +243,18 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                 <MapPin className="w-3.5 h-3.5 text-indigo-400" />
               </div>
               <div className="space-y-0.5">
-                <span className="text-[8px] uppercase tracking-wider font-mono text-slate-600">Origin / Asal</span>
-                <p className="text-xs font-bold text-slate-205 font-display">Mamasa, Sulawesi Barat</p>
-                <p className="text-[9px] text-slate-500 leading-normal font-sans">Known for beautiful highlands & rich cultural heritage.</p>
+                <span className="text-[10px] uppercase tracking-wider font-mono text-slate-500">Origin / Asal</span>
+                <p className="text-xs font-bold text-slate-200 font-display">Mamasa, Sulawesi Barat</p>
+                <p className="text-[10px] text-slate-400 leading-normal font-sans">Known for beautiful highlands & rich cultural heritage.</p>
               </div>
             </div>
 
             {/* Sports */}
             <div className="space-y-1.5">
-              <span className="text-[8px] uppercase tracking-wider font-mono text-slate-500">Sports / Olahraga</span>
+              <span className="text-[10px] uppercase tracking-wider font-mono text-slate-400">Sports / Olahraga</span>
               <div className="flex flex-wrap gap-1">
                 {['Volley', 'Sepak Takraw', 'Futsal'].map((sport, i) => (
-                  <span key={i} className="text-[9px] font-mono px-2.5 py-1 rounded bg-slate-950/90 text-slate-450 border border-slate-900">
+                  <span key={i} className="text-[11px] font-mono px-2.5 py-1 rounded bg-slate-950/90 text-slate-350 border border-slate-900">
                     {sport}
                   </span>
                 ))}
@@ -263,9 +263,9 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
 
             {/* Games */}
             <div className="space-y-1.5">
-              <span className="text-[8px] uppercase tracking-wider font-mono text-slate-500 flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-slate-400 flex items-center justify-between">
                 <span>Favorite Games</span>
-                <span className="text-[8px] text-slate-650 font-normal">Active telemetry</span>
+                <span className="text-[10px] text-slate-500 font-normal">Active telemetry</span>
               </span>
               <div className="grid grid-cols-2 gap-1.5">
                 {[
@@ -276,7 +276,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                 ].map((game, i) => (
                   <div 
                     key={i} 
-                    className={`p-1.5 rounded-lg bg-slate-950/80 border border-slate-900 text-slate-450 text-[10px] font-mono tracking-wide flex items-center justify-between transition-all duration-300 hover:scale-[1.02] cursor-default ${game.color}`}
+                    className={`p-1.5 rounded-lg bg-slate-950/80 border border-slate-900 text-slate-350 text-[11px] font-mono tracking-wide flex items-center justify-between transition-all duration-300 hover:scale-[1.02] cursor-default ${game.color}`}
                   >
                     <span>{game.name}</span>
                     <span className="w-1 h-1 rounded-full bg-indigo-500 animate-pulse shrink-0 ml-1.5"></span>
@@ -286,7 +286,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
             </div>
           </div>
 
-          <div className="text-[9px] text-slate-650 font-mono pt-2 border-t border-slate-900 flex items-center justify-between relative z-10">
+          <div className="text-[11px] text-slate-550 font-mono pt-2 border-t border-slate-900 flex items-center justify-between relative z-10">
             <span>Competitive Gamer</span>
             <span>Active Team Player</span>
           </div>
@@ -297,20 +297,20 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10 space-y-3.5">
             <div className="flex items-center justify-between">
-              <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_METRIC::PHILOSOPHY]</h4>
-              <span className="p-1 rounded bg-indigo-500/10 border border-indigo-500/20 text-[8px] font-mono text-indigo-400">CORE_VALUE</span>
+              <h4 className="text-[11px] sm:text-xs uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_METRIC::PHILOSOPHY]</h4>
+              <span className="p-1 rounded bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-mono text-indigo-400">CORE_VALUE</span>
             </div>
             <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-900/60 space-y-2">
-              <p className="text-[11px] italic text-slate-450 leading-relaxed font-sans">
+              <p className="text-xs italic text-slate-400 leading-relaxed font-sans">
                 "Write clean, self-documenting code. Build robust backends that scale, and bridge the physical and digital world with real-time telemetry."
               </p>
               <div className="flex items-center gap-1.5 pt-1.5 border-t border-slate-900/60">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
-                <span className="text-[8px] text-slate-600 font-mono">Telemetry Standard compliant</span>
+                <span className="text-[10px] text-slate-500 font-mono">Telemetry Standard compliant</span>
               </div>
             </div>
           </div>
-          <div className="text-[10px] font-mono text-slate-650 leading-relaxed pt-2 border-t border-slate-900 relative z-10">
+          <div className="text-[11px] font-mono text-slate-500 leading-relaxed pt-2 border-t border-slate-900 relative z-10">
             System values prioritized for scalability and maintainability.
           </div>
         </div>
@@ -324,8 +324,8 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
           
           <div className="relative z-10 space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_FILE::CURRICULUM_VITAE]</h4>
-              <span className="text-[8px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
+              <h4 className="text-[11px] sm:text-xs uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_FILE::CURRICULUM_VITAE]</h4>
+              <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
                 DOWNLOAD_READY
               </span>
             </div>
@@ -339,38 +339,38 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
               <div className="space-y-2.5 font-mono text-left leading-relaxed">
                 {/* Header */}
                 <div className="flex items-center gap-2 border-b border-slate-900/80 pb-1.5">
-                  <div className="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 shrink-0 flex items-center justify-center font-bold text-[8px] border border-indigo-500/20">HP</div>
+                  <div className="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-400 shrink-0 flex items-center justify-center font-bold text-[10px] border border-indigo-500/20">HP</div>
                   <div className="space-y-0.5 min-w-0">
-                    <h5 className="text-[8px] font-bold text-white leading-none truncate">HANS PARSON</h5>
-                    <p className="text-[6px] text-slate-500 leading-none truncate">BACKEND & IOT ENGINEER</p>
+                    <h5 className="text-[10px] font-bold text-white leading-none truncate">HANS PARSON</h5>
+                    <p className="text-[8px] text-slate-500 leading-none truncate">BACKEND & IOT ENGINEER</p>
                   </div>
                 </div>
                 
                 {/* Profile Brief */}
                 <div className="space-y-0.5">
-                  <span className="text-[6px] text-indigo-400 font-bold block uppercase tracking-wider">[PROFILE]</span>
-                  <p className="text-[7px] text-slate-400 leading-normal line-clamp-2">
+                  <span className="text-[8px] text-indigo-400 font-bold block uppercase tracking-wider">[PROFILE]</span>
+                  <p className="text-[9px] text-slate-400 leading-normal line-clamp-2">
                     5+ years building high-availability backend microservices (Go/Python) and low-level physical telemetry systems (Arduino/LoRa).
                   </p>
                 </div>
 
                 {/* Experience Snippet */}
                 <div className="space-y-0.5">
-                  <span className="text-[6px] text-indigo-400 font-bold block uppercase tracking-wider">[EXPERIENCE_LOG]</span>
+                  <span className="text-[8px] text-indigo-400 font-bold block uppercase tracking-wider">[EXPERIENCE_LOG]</span>
                   <div className="space-y-1">
-                    <div className="flex items-center justify-between text-[7px]">
-                      <span className="text-slate-300 font-semibold truncate max-w-[70%]">PT Verihubs Nusantara</span>
-                      <span className="text-slate-550 shrink-0 font-medium">2024 - Pres.</span>
+                    <div className="flex items-center justify-between text-[9px]">
+                      <span className="text-slate-350 font-semibold truncate max-w-[70%]">PT Verihubs Nusantara</span>
+                      <span className="text-slate-500 shrink-0 font-medium">2024 - Pres.</span>
                     </div>
-                    <div className="flex items-center justify-between text-[7px]">
-                      <span className="text-slate-300 font-semibold truncate max-w-[70%]">PT MNC Teknologi</span>
-                      <span className="text-slate-550 shrink-0 font-medium">2022 - 2024</span>
+                    <div className="flex items-center justify-between text-[9px]">
+                      <span className="text-slate-355 font-semibold truncate max-w-[70%]">PT MNC Teknologi</span>
+                      <span className="text-slate-500 shrink-0 font-medium">2022 - 2024</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between border-t border-slate-900 pt-1.5 text-[7px] font-mono text-slate-655">
+              <div className="flex items-center justify-between border-t border-slate-900 pt-1.5 text-[9px] font-mono text-slate-500">
                 <span>FORMAT: PDF</span>
                 <span>SIZE: 28 KB</span>
               </div>
@@ -380,13 +380,13 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                 <div className="p-2.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-75 group-hover:scale-100 transition-transform duration-300">
                   <Download className="w-5 h-5" />
                 </div>
-                <span className="text-[9px] font-mono font-bold text-indigo-300 tracking-widest">DOWNLOAD_CV</span>
+                <span className="text-[11px] font-mono font-bold text-indigo-300 tracking-widest">DOWNLOAD_CV</span>
               </div>
             </a>
           </div>
           
           <div className="space-y-3 relative z-10">
-            <p className="text-[11px] text-slate-550 leading-relaxed font-sans">
+            <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed font-sans">
               Access the complete profile detailing professional credentials, backend capabilities, and tech stack logs.
             </p>
             <a
