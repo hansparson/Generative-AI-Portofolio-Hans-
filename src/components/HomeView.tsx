@@ -330,29 +330,47 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
               </span>
             </div>
             
-            {/* Interactive CV Image Mockup redesigned to match cyber styling */}
+            {/* Interactive CV Image Mockup showing real CV snippet */}
             <a
               href="/images/CV_Hans_Parson_Latest.pdf"
               download="CV_Hans_Parson_Latest.pdf"
-              className="block relative mt-2 rounded-xl border border-slate-900 bg-slate-950 p-4 aspect-[4/3] overflow-hidden flex flex-col justify-between group-hover:border-indigo-500/35 hover:border-indigo-500/35 transition-all duration-300 shadow-inner cursor-pointer"
+              className="block relative mt-2 rounded-xl border border-slate-900 bg-slate-950/90 p-4 aspect-[4/3] overflow-hidden flex flex-col justify-between group-hover:border-indigo-500/35 hover:border-indigo-500/35 transition-all duration-300 shadow-inner cursor-pointer"
             >
-              {/* Mock Resume Lines */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 border-b border-slate-900 pb-2">
-                  <div className="w-6 h-6 rounded-full bg-slate-900 shrink-0 flex items-center justify-center text-[7px] font-bold text-slate-550 font-mono border border-slate-800">HP</div>
-                  <div className="space-y-1 w-full">
-                    <div className="h-1.5 w-16 bg-slate-850 rounded"></div>
-                    <div className="h-1 w-24 bg-slate-900 rounded"></div>
+              <div className="space-y-2.5 font-mono text-left leading-relaxed">
+                {/* Header */}
+                <div className="flex items-center gap-2 border-b border-slate-900/80 pb-1.5">
+                  <div className="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 shrink-0 flex items-center justify-center font-bold text-[8px] border border-indigo-500/20">HP</div>
+                  <div className="space-y-0.5 min-w-0">
+                    <h5 className="text-[8px] font-bold text-white leading-none truncate">HANS PARSON</h5>
+                    <p className="text-[6px] text-slate-500 leading-none truncate">BACKEND & IOT ENGINEER</p>
                   </div>
                 </div>
-                <div className="space-y-1.5 pt-1">
-                  <div className="h-1 w-full bg-slate-900/40 rounded"></div>
-                  <div className="h-1 w-[90%] bg-slate-900/40 rounded"></div>
-                  <div className="h-1 w-[95%] bg-slate-900/40 rounded"></div>
-                  <div className="h-1 w-[80%] bg-slate-900/40 rounded"></div>
+                
+                {/* Profile Brief */}
+                <div className="space-y-0.5">
+                  <span className="text-[6px] text-indigo-400 font-bold block uppercase tracking-wider">[PROFILE]</span>
+                  <p className="text-[7px] text-slate-400 leading-normal line-clamp-2">
+                    5+ years building high-availability backend microservices (Go/Python) and low-level physical telemetry systems (Arduino/LoRa).
+                  </p>
+                </div>
+
+                {/* Experience Snippet */}
+                <div className="space-y-0.5">
+                  <span className="text-[6px] text-indigo-400 font-bold block uppercase tracking-wider">[EXPERIENCE_LOG]</span>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between text-[7px]">
+                      <span className="text-slate-300 font-semibold truncate max-w-[70%]">PT Verihubs Nusantara</span>
+                      <span className="text-slate-550 shrink-0 font-medium">2024 - Pres.</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[7px]">
+                      <span className="text-slate-300 font-semibold truncate max-w-[70%]">PT MNC Teknologi</span>
+                      <span className="text-slate-550 shrink-0 font-medium">2022 - 2024</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-slate-900 pt-2 text-[7px] font-mono text-slate-600">
+
+              <div className="flex items-center justify-between border-t border-slate-900 pt-1.5 text-[7px] font-mono text-slate-655">
                 <span>FORMAT: PDF</span>
                 <span>SIZE: 28 KB</span>
               </div>
