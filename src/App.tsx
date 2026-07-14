@@ -458,9 +458,9 @@ export default function App() {
                   AI CO-PILOT SYSTEM :: CONNECTED
                 </span>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-white leading-tight">
-                  Initiate Portal with{' '}
+                  Hans Parson's{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400">
-                    Alison Co-Pilot
+                    Portfolio Portal
                   </span>
                 </h2>
               </div>
