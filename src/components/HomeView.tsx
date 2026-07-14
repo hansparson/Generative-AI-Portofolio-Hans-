@@ -63,7 +63,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
               <p className="text-[11px] text-indigo-400 font-mono tracking-wider">PORTAL_AGENT::ID_013</p>
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[10px] sm:text-[11px] text-indigo-300 font-mono uppercase tracking-wider mt-1">
                 <Shield className="w-2.5 h-2.5 text-indigo-400" />
-                IoT Specialist
+                Software Engineer and IoT Specialist
               </div>
             </div>
           </div>
