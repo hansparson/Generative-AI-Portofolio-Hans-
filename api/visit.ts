@@ -26,18 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let latitude = parseFloat(req.headers["x-vercel-ip-latitude"] as string || "0");
     let longitude = parseFloat(req.headers["x-vercel-ip-longitude"] as string || "0");
 
-    const countryNameMap: Record<string, string> = {
-      "ID": "Indonesia",
-      "US": "United States",
-      "SG": "Singapore",
-      "JP": "Japan",
-      "GB": "United Kingdom",
-      "AU": "Australia",
-      "DE": "Germany",
-      "FR": "France",
-      "IN": "India",
-      "MY": "Malaysia",
-    };
+    // Resolve countryName dynamically using standard built-in Intl.DisplayNames API
 
     // If running locally, or Vercel headers are missing, simulate a populated map
     if (!countryCode || ip === "::1" || ip === "127.0.0.1" || ip.includes("127.0.0.1")) {
@@ -70,7 +59,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       try {
         city = decodeURIComponent(city);
       } catch (e) {}
-      countryName = countryNameMap[countryCode] || countryCode;
+      try {
+        countryName = new Intl.DisplayNames(['en'], { type: 'region' }).of(countryCode) || countryCode;
+      } catch (e) {
+        countryName = countryCode;
+      }
     }
 
     // SQL-like insert statement

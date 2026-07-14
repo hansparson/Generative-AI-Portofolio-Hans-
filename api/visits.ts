@@ -46,7 +46,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const percentage = totalVisits > 0 ? parseFloat(((count / totalVisits) * 100).toFixed(1)) : 0;
       return {
         countryCode: c.countryCode || "Unknown",
-        countryName: c.countryName || (c.countryCode === "ID" ? "Indonesia" : "Unknown"),
+        countryName: (() => {
+          if (c.countryName && c.countryName !== c.countryCode) return c.countryName;
+          try {
+            return new Intl.DisplayNames(['en'], { type: 'region' }).of(c.countryCode) || c.countryCode;
+          } catch (e) {
+            return c.countryCode || "Unknown";
+          }
+        })(),
         count,
         percentage
       };
