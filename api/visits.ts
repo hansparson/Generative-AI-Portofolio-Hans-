@@ -36,10 +36,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 3. Get recent 5 visits
     const recentVisits = await db.query("SELECT * FROM visits ORDER BY timestamp DESC LIMIT 5");
 
+    // 4. Get counts grouped by country
+    const countryRes = await db.query(
+      "SELECT countryCode, countryName, COUNT(*) as count FROM visits GROUP BY countryCode, countryName ORDER BY count DESC"
+    );
+    
+    const visitsByCountry = countryRes.map((c: any) => {
+      const count = c.count;
+      const percentage = totalVisits > 0 ? parseFloat(((count / totalVisits) * 100).toFixed(1)) : 0;
+      return {
+        countryCode: c.countryCode || "Unknown",
+        countryName: c.countryName || (c.countryCode === "ID" ? "Indonesia" : "Unknown"),
+        count,
+        percentage
+      };
+    });
+
+    // 5. Get coordinates of recent visits for the map (limit to 150)
+    const visitorLocations = await db.query(
+      "SELECT id, countryCode, countryName, city, latitude, longitude, timestamp FROM visits WHERE latitude IS NOT NULL AND longitude IS NOT NULL AND latitude != 0 AND longitude != 0 ORDER BY timestamp DESC LIMIT 150"
+    );
+
     return res.json({
       totalVisits,
       visitsByDay,
-      recentVisits
+      recentVisits,
+      visitsByCountry,
+      visitorLocations
     });
   } catch (err: any) {
     console.error("Error retrieving visits in API handler:", err);

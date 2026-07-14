@@ -8,6 +8,11 @@ export interface Visit {
   timestamp: string; // ISO String
   dayOfWeek: number; // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
   userAgent: string;
+  countryCode?: string;
+  countryName?: string;
+  city?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 // In-memory store for serverless environments (fallback)
@@ -131,9 +136,21 @@ export class VisitorDatabase {
           id TEXT PRIMARY KEY,
           timestamp TEXT NOT NULL,
           dayOfWeek INTEGER NOT NULL,
-          userAgent TEXT
+          userAgent TEXT,
+          countryCode TEXT,
+          countryName TEXT,
+          city TEXT,
+          latitude REAL,
+          longitude REAL
         )
       `);
+
+      // Migrations: Alter table to add new columns if they do not exist (safe for existing databases)
+      try { await this.sqliteDb.run("ALTER TABLE visits ADD COLUMN countryCode TEXT"); } catch (e) {}
+      try { await this.sqliteDb.run("ALTER TABLE visits ADD COLUMN countryName TEXT"); } catch (e) {}
+      try { await this.sqliteDb.run("ALTER TABLE visits ADD COLUMN city TEXT"); } catch (e) {}
+      try { await this.sqliteDb.run("ALTER TABLE visits ADD COLUMN latitude REAL"); } catch (e) {}
+      try { await this.sqliteDb.run("ALTER TABLE visits ADD COLUMN longitude REAL"); } catch (e) {}
       
       console.log("SQLite Engine: Successfully connected and initialized database 'data/visitors.db'.");
       this.sqliteInitialized = true;
@@ -181,15 +198,20 @@ export class VisitorDatabase {
   private async queryFirebase(sql: string, params: any[] = []): Promise<any> {
     const normalizedSql = sql.trim().replace(/\s+/g, " ");
 
-    // 1. INSERT INTO visits (id, timestamp, dayOfWeek, userAgent) VALUES (?, ?, ?, ?)
+    // 1. INSERT INTO visits
     if (normalizedSql.match(/^INSERT INTO visits/i)) {
-      const [id, timestamp, dayOfWeek, userAgent] = params;
+      const [id, timestamp, dayOfWeek, userAgent, countryCode, countryName, city, latitude, longitude] = params;
       const visitId = id || "visit_" + Math.random().toString(36).substring(2, 9);
       const visitDoc: Visit = {
         id: visitId,
         timestamp: timestamp || new Date().toISOString(),
         dayOfWeek: typeof dayOfWeek === "number" ? dayOfWeek : new Date().getDay(),
-        userAgent: userAgent || ""
+        userAgent: userAgent || "",
+        countryCode: countryCode || "",
+        countryName: countryName || "",
+        city: city || "",
+        latitude: typeof latitude === "number" ? latitude : 0,
+        longitude: typeof longitude === "number" ? longitude : 0
       };
       
       await this.firestore.collection("visits").doc(visitId).set(visitDoc);
@@ -222,6 +244,52 @@ export class VisitorDatabase {
       }));
     }
 
+    // 3.5 SELECT countryCode, countryName, COUNT(*) FROM visits GROUP BY countryCode
+    if (normalizedSql.match(/GROUP BY countryCode/i)) {
+      const snapshot = await this.firestore.collection("visits").get();
+      const counts: Record<string, { countryCode: string, countryName: string, count: number }> = {};
+      
+      snapshot.forEach((doc: any) => {
+        const data = doc.data();
+        const code = data.countryCode || "Unknown";
+        const name = data.countryName || "Unknown";
+        if (!counts[code]) {
+          counts[code] = { countryCode: code, countryName: name, count: 0 };
+        }
+        counts[code].count += 1;
+      });
+
+      return Object.values(counts).sort((a, b) => b.count - a.count);
+    }
+
+    // 3.7 SELECT id, countryCode, countryName, city, latitude, longitude, timestamp FROM visits WHERE latitude IS NOT NULL
+    if (normalizedSql.match(/latitude IS NOT NULL/i)) {
+      const limitMatch = normalizedSql.match(/LIMIT\s+(\d+)/i);
+      const limit = limitMatch ? parseInt(limitMatch[1], 10) : 150;
+      
+      const snapshot = await this.firestore.collection("visits")
+        .orderBy("timestamp", "desc")
+        .get();
+        
+      const results: any[] = [];
+      snapshot.forEach((doc: any) => {
+        const data = doc.data();
+        if (data.latitude && data.longitude) {
+          results.push({
+            id: data.id,
+            countryCode: data.countryCode || "",
+            countryName: data.countryName || "",
+            city: data.city || "",
+            latitude: data.latitude,
+            longitude: data.longitude,
+            timestamp: data.timestamp
+          });
+        }
+      });
+      
+      return results.slice(0, limit);
+    }
+
     // 4. SELECT * FROM visits ORDER BY timestamp DESC LIMIT X
     if (normalizedSql.match(/ORDER BY timestamp DESC/i)) {
       const limitMatch = normalizedSql.match(/LIMIT\s+(\d+)/i);
@@ -251,12 +319,17 @@ export class VisitorDatabase {
 
     // 1. INSERT INTO visits
     if (normalizedSql.match(/^INSERT INTO visits/i)) {
-      const [id, timestamp, dayOfWeek, userAgent] = params;
+      const [id, timestamp, dayOfWeek, userAgent, countryCode, countryName, city, latitude, longitude] = params;
       const newVisit: Visit = {
         id: id || "visit_" + Math.random().toString(36).substring(2, 9),
         timestamp: timestamp || new Date().toISOString(),
         dayOfWeek: typeof dayOfWeek === "number" ? dayOfWeek : new Date().getDay(),
-        userAgent: userAgent || ""
+        userAgent: userAgent || "",
+        countryCode: countryCode || "",
+        countryName: countryName || "",
+        city: city || "",
+        latitude: typeof latitude === "number" ? latitude : 0,
+        longitude: typeof longitude === "number" ? longitude : 0
       };
       visits.push(newVisit);
       this.saveVisitsFallback(visits);
@@ -283,6 +356,40 @@ export class VisitorDatabase {
       return Object.keys(counts).map((day) => ({
         dayOfWeek: parseInt(day, 10),
         count: counts[parseInt(day, 10)]
+      }));
+    }
+
+    // 3.5 SELECT countryCode, countryName, COUNT(*) GROUP BY countryCode
+    if (normalizedSql.match(/GROUP BY countryCode/i)) {
+      const counts: Record<string, { countryCode: string, countryName: string, count: number }> = {};
+      
+      visits.forEach((v) => {
+        const code = v.countryCode || "Unknown";
+        const name = v.countryName || "Unknown";
+        if (!counts[code]) {
+          counts[code] = { countryCode: code, countryName: name, count: 0 };
+        }
+        counts[code].count += 1;
+      });
+
+      return Object.values(counts).sort((a, b) => b.count - a.count);
+    }
+
+    // 3.7 SELECT id, countryCode, countryName, city, latitude, longitude, timestamp FROM visits WHERE latitude IS NOT NULL
+    if (normalizedSql.match(/latitude IS NOT NULL/i)) {
+      const limitMatch = normalizedSql.match(/LIMIT\s+(\d+)/i);
+      const limit = limitMatch ? parseInt(limitMatch[1], 10) : 150;
+      
+      const filtered = visits.filter(v => v.latitude && v.longitude);
+      const sorted = [...filtered].sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+      return sorted.slice(0, limit).map(v => ({
+        id: v.id,
+        countryCode: v.countryCode || "",
+        countryName: v.countryName || "",
+        city: v.city || "",
+        latitude: v.latitude,
+        longitude: v.longitude,
+        timestamp: v.timestamp
       }));
     }
 
