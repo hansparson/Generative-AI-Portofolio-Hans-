@@ -9,11 +9,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { userAgent } = req.body;
+    const { userAgent, clientDayOfWeek } = req.body;
     const now = new Date();
     
-    // We compute the dayOfWeek (0 = Sunday, 1 = Monday, etc.)
-    const dayOfWeek = now.getDay();
+    // Use the client's local day of week if provided to handle timezones correctly; fallback to server UTC day of week
+    const dayOfWeek = (typeof clientDayOfWeek === "number" && clientDayOfWeek >= 0 && clientDayOfWeek <= 6)
+      ? clientDayOfWeek
+      : now.getDay();
+      
     const id = "visit_" + Math.random().toString(36).substring(2, 9);
     const timestamp = now.toISOString();
 

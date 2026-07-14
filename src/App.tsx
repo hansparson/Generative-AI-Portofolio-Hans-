@@ -75,7 +75,10 @@ export default function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userAgent: navigator.userAgent }),
+        body: JSON.stringify({ 
+          userAgent: navigator.userAgent,
+          clientDayOfWeek: new Date().getDay()
+        }),
       })
         .then((res) => {
           if (res.ok) {
