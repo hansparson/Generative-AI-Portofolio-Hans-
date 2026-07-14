@@ -87,7 +87,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
       disabled={true}
       className={isSidebar 
         ? "w-full p-4 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-lg h-full"
-        : "col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden shadow-lg"
+        : "col-span-1 md:col-span-2 p-4 sm:p-5 md:p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden shadow-lg"
       }
     >
       <div className="absolute inset-0 cyber-scanline opacity-5 pointer-events-none" />

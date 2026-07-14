@@ -41,7 +41,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         
         {/* Profile ID Card - Personnel Hologram Format */}
         <InteractiveTiltCard 
-          className="col-span-1 p-5 bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden h-full shadow-lg"
+          className="col-span-1 p-4 sm:p-5 bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden h-full shadow-lg"
           glowColor="rgba(99, 102, 241, 0.15)"
         >
           {/* Card telemetry scan lines */}
@@ -61,9 +61,9 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
                 Hans Parson
               </h3>
               <p className="text-[11px] text-indigo-400 font-mono tracking-wider">PORTAL_AGENT::ID_013</p>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[10px] sm:text-[11px] text-indigo-300 font-mono uppercase tracking-wider mt-1">
-                <Shield className="w-2.5 h-2.5 text-indigo-400" />
-                Software Engineer and IoT Specialist
+              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[9px] sm:text-[10px] md:text-[11px] text-indigo-300 font-mono uppercase tracking-tight sm:tracking-wider mt-1.5 max-w-full truncate">
+                <Shield className="w-2.5 h-2.5 text-indigo-400 shrink-0" />
+                <span className="truncate">Software Engineer & IoT Specialist</span>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
 
         {/* About Specialty Card - Hologram HUD block */}
         <InteractiveTiltCard 
-          className="col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden h-full shadow-lg"
+          className="col-span-1 md:col-span-2 p-4 sm:p-5 md:p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden h-full shadow-lg"
           glowColor="rgba(99, 102, 241, 0.15)"
         >
           <div className="absolute inset-0 cyber-scanline opacity-5" />
@@ -150,7 +150,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         <TelemetryConsole />
 
         {/* Selected Featured Project Card */}
-        <div className="col-span-1 md:col-span-2 p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between backdrop-blur-md relative overflow-hidden shadow-lg">
+        <div className="col-span-1 md:col-span-2 p-4 sm:p-5 md:p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between backdrop-blur-md relative overflow-hidden shadow-lg">
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-4">
@@ -192,7 +192,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         </div>
 
         {/* Skills Bento Block */}
-        <div className="p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between space-y-4 backdrop-blur-md relative overflow-hidden shadow-lg">
+        <div className="p-4 sm:p-5 md:p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between space-y-4 backdrop-blur-md relative overflow-hidden shadow-lg">
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-3.5">
@@ -229,7 +229,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         </div>
 
         {/* Origin & Details Bento Block */}
-        <div className="p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between space-y-4 backdrop-blur-md relative overflow-hidden shadow-lg">
+        <div className="p-4 sm:p-5 md:p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between space-y-4 backdrop-blur-md relative overflow-hidden shadow-lg">
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10 space-y-3.5">
             <div className="flex items-center justify-between">
@@ -320,7 +320,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         </div>
 
         {/* Philosophy Card - Cyber layout */}
-        <div className="p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between space-y-4 backdrop-blur-md relative overflow-hidden shadow-lg">
+        <div className="p-4 sm:p-5 md:p-6 rounded-2xl bg-slate-950/45 border border-slate-900/80 flex flex-col justify-between space-y-4 backdrop-blur-md relative overflow-hidden shadow-lg">
           <div className="absolute inset-0 cyber-scanline opacity-5" />
           <div className="relative z-10 space-y-3.5">
             <div className="flex items-center justify-between">
@@ -344,7 +344,7 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
 
         {/* CV Download Card */}
         <InteractiveTiltCard
-          className="p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 hover:border-indigo-500/30 flex flex-col justify-between space-y-4 relative overflow-hidden group shadow-lg transition-all duration-300"
+          className="p-4 sm:p-5 md:p-6 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900/60 to-indigo-950/20 border border-slate-900/80 hover:border-indigo-500/30 flex flex-col justify-between space-y-4 relative overflow-hidden group shadow-lg transition-all duration-300"
           glowColor="rgba(99, 102, 241, 0.15)"
         >
           <div className="absolute inset-0 cyber-scanline opacity-5" />
