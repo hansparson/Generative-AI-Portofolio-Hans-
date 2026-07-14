@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChatMessage } from './types';
-import { Layers, Terminal, Sparkles, Layout, Mail, Briefcase, Award, Library, ArrowRight, BookOpen, Cpu, FileText, Download, Sun, Moon } from 'lucide-react';
+import { Layers, Terminal, Sparkles, Layout, Mail, Briefcase, Award, Library, ArrowRight, BookOpen, Cpu, FileText, Download, Sun, Moon, Users } from 'lucide-react';
 
 // Subcomponents
 import ChatPanel from './components/ChatPanel';
@@ -16,6 +16,7 @@ import ProfileAvatar from './components/ProfileAvatar';
 import CertificatesView from './components/CertificatesView';
 import BlogView from './components/BlogView';
 import SandboxView from './components/SandboxView';
+import VisitorConsole from './components/VisitorConsole';
 
 const getAvatarUrl = (expression: string) => {
   switch (expression) {
@@ -48,6 +49,7 @@ export default function App() {
   const [showLanding, setShowLanding] = useState<boolean>(true);
   const [isWorkspaceVisible, setIsWorkspaceVisible] = useState<boolean>(true);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(true);
+  const [isVisitorOpen, setIsVisitorOpen] = useState<boolean>(true);
   // Generative state managed live
   const [activeView, setActiveView] = useState<string>('home');
   const [viewProps, setViewProps] = useState<any>({});
@@ -772,6 +774,41 @@ export default function App() {
               <div className="pr-3 text-left">
                 <span className="text-[8px] font-mono text-indigo-400 font-bold uppercase tracking-wider block">AI CO-PILOT</span>
                 <span className="text-[10px] font-mono text-slate-300 font-semibold group-hover:text-indigo-300 transition-colors uppercase">[TALK_TO_ALISON]</span>
+              </div>
+            </motion.button>
+          )}
+        </AnimatePresence>
+      )}
+
+      {/* Floating Collapsible Visitor Analytics Panel (Left Side on Desktop) */}
+      {isWorkspaceVisible && (
+        <AnimatePresence>
+          {isVisitorOpen ? (
+            <div className="fixed hidden lg:flex flex-col left-8 top-[50%] -translate-y-[50%] z-50 pointer-events-none transition-all duration-300">
+              <motion.div
+                initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -30, scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="w-[370px] h-[480px] max-w-[calc(100vw-32px)] flex flex-col shadow-2xl rounded-2xl overflow-hidden pointer-events-auto border border-orange-500/20 bg-slate-950/80 backdrop-blur-md animate-glow"
+              >
+                <VisitorConsole isSidebar={true} onCloseSidebar={() => setIsVisitorOpen(false)} />
+              </motion.div>
+            </div>
+          ) : (
+            /* Miniature Floating FAB on Left */
+            <motion.button
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              onClick={() => setIsVisitorOpen(true)}
+              className="fixed hidden lg:flex bottom-6 left-6 z-50 p-2.5 rounded-full bg-slate-950/90 border border-orange-500/40 hover:border-orange-500 text-white shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] transition-all cursor-pointer items-center gap-2 group pointer-events-auto"
+            >
+              <div className="w-10 h-10 rounded-full border border-orange-500/30 bg-slate-900/60 flex items-center justify-center relative shrink-0">
+                <Users className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
+              </div>
+              <div className="pr-3 text-left">
+                <span className="text-[8px] font-mono text-orange-400 font-bold uppercase tracking-wider block">ANALYTICS</span>
+                <span className="text-[10px] font-mono text-slate-350 group-hover:text-orange-355 transition-colors uppercase">[OPEN_CONSOLE]</span>
               </div>
             </motion.button>
           )}

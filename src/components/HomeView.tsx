@@ -381,7 +381,9 @@ export default function HomeView({ customTitle, customIntro, highlightedItems = 
         </InteractiveTiltCard>
 
         {/* Visitor Statistics Bento Block */}
-        <VisitorConsole />
+        <div className="col-span-1 md:col-span-2 lg:hidden">
+          <VisitorConsole />
+        </div>
       </div>
     </motion.div>
   );

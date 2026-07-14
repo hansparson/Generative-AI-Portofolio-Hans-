@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Calendar, Activity, RefreshCw, BarChart3, Clock } from 'lucide-react';
+import { Users, Calendar, Activity, RefreshCw, BarChart3, Clock, X } from 'lucide-react';
 import InteractiveTiltCard from './InteractiveTiltCard';
 import WorldVisitorMap from './WorldVisitorMap';
 
@@ -43,7 +43,12 @@ interface VisitsData {
   visitorLocations?: VisitorLocation[];
 }
 
-export default function VisitorConsole() {
+interface VisitorConsoleProps {
+  isSidebar?: boolean;
+  onCloseSidebar?: () => void;
+}
+
+export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: VisitorConsoleProps) {
   const [data, setData] = useState<VisitsData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -79,26 +84,40 @@ export default function VisitorConsole() {
   return (
     <InteractiveTiltCard
       glowColor="rgba(249, 115, 22, 0.15)"
-      className="col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden shadow-lg"
+      className={isSidebar 
+        ? "w-full p-4 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-lg h-full"
+        : "col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden shadow-lg"
+      }
     >
       <div className="absolute inset-0 cyber-scanline opacity-5 pointer-events-none" />
       
       <div className="relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-2.5">
-            <span className="p-1.5 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/25">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="p-1.5 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/25 shrink-0">
               <Users className="w-4 h-4" />
             </span>
-            <div>
-              <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold">[SYS_METRIC::VISITOR_ANALYTICS]</h4>
-              <p className="text-[9px] text-slate-500 font-mono">Database Layer: Hybrid DB Engine</p>
+            <div className="min-w-0">
+              <h4 className="text-[10px] uppercase tracking-wider font-mono text-slate-400 font-bold truncate">[SYS_METRIC::VISITOR_ANALYTICS]</h4>
+              <p className="text-[8px] sm:text-[9px] text-slate-500 font-mono truncate">Database Layer: Hybrid DB Engine</p>
             </div>
           </div>
-          <span className="text-[8px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/35 text-orange-400 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-ping"></span>
-            <span>PIPELINE: ACTIVE</span>
-          </span>
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-[8px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 border border-orange-500/35 text-orange-400 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-ping"></span>
+              <span>PIPELINE: ACTIVE</span>
+            </span>
+            {isSidebar && onCloseSidebar && (
+              <button
+                onClick={onCloseSidebar}
+                className="p-1 rounded bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/80 transition-colors cursor-pointer"
+                title="Minimize Panel"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
         {loading ? (
@@ -110,9 +129,9 @@ export default function VisitorConsole() {
             {error}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+          <div className={isSidebar ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch"}>
             {/* Left Metrics */}
-            <div className="md:col-span-4 flex flex-col gap-4">
+            <div className={isSidebar ? "w-full" : "md:col-span-4 flex flex-col gap-4"}>
               <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-900/60 flex flex-col justify-between h-full min-h-[140px] relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/5 rounded-full blur-xl -z-10 group-hover:bg-orange-500/10 transition-all" />
                 <div className="space-y-3">
@@ -178,7 +197,7 @@ export default function VisitorConsole() {
             </div>
 
             {/* Right Chart / Map Container */}
-            <div className="md:col-span-8 flex flex-col justify-between p-4 rounded-xl bg-slate-950/30 border border-slate-900/50">
+            <div className={isSidebar ? "w-full p-3 rounded-xl bg-slate-950/30 border border-slate-900/50" : "md:col-span-8 flex flex-col justify-between p-4 rounded-xl bg-slate-950/30 border border-slate-900/50"}>
               <div>
                 <div className="flex items-center justify-between mb-3.5">
                   <span className="text-[9px] uppercase font-mono text-slate-400 font-bold flex items-center gap-1.5">
