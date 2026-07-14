@@ -16,7 +16,9 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ customTitle, customIntro, highlightedItems = [], onNavigate }: HomeViewProps) {
-  const featuredSkills = INITIAL_SKILLS.filter(s => s.level >= 92).slice(0, 5);
+  const featuredSkills = [...INITIAL_SKILLS]
+    .sort((a, b) => b.level - a.level)
+    .slice(0, 5);
   const featuredProjects = INITIAL_PROJECTS.filter(p => p.featured);
 
   return (
