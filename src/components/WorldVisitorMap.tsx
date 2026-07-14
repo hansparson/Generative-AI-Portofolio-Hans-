@@ -196,7 +196,7 @@ export default function WorldVisitorMap({ locations, isSidebar = false }: WorldV
   }, [isLeafletReady, locations]);
 
   return (
-    <div className={`relative w-full rounded-xl overflow-hidden border border-slate-900/60 bg-slate-950 flex items-center justify-center ${isSidebar ? "h-[210px] md:h-[230px]" : "h-[280px] md:h-[300px]"}`}>
+    <div className={`relative w-full rounded-xl overflow-hidden border border-slate-900/60 bg-slate-950 flex items-center justify-center ${isSidebar ? "h-[260px] md:h-[280px]" : "h-[280px] md:h-[300px]"}`}>
       {!isLeafletReady && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-950/90 text-slate-400 font-mono text-[10px]">
           <div className="w-4 h-4 rounded-full border-2 border-orange-500/20 border-t-orange-500 animate-spin" />

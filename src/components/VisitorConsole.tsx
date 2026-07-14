@@ -92,7 +92,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
     >
       <div className="absolute inset-0 cyber-scanline opacity-5 pointer-events-none" />
       
-      <div className="relative z-10">
+      <div className={isSidebar ? "relative z-10 h-full flex flex-col justify-between" : "relative z-10"}>
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -130,7 +130,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
             {error}
           </div>
         ) : (
-          <div className={isSidebar ? "flex flex-col gap-4" : "grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch"}>
+          <div className={isSidebar ? "flex flex-col gap-4 overflow-y-auto scrollbar-none flex-1 pr-0.5" : "grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch"}>
             {/* Left Metrics */}
             <div className={isSidebar ? "w-full" : "md:col-span-4 flex flex-col gap-4"}>
               <div className={isSidebar 
