@@ -271,7 +271,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                   </div>
                 ) : (
                   /* World Geolocation Map */
-                  <WorldVisitorMap locations={data?.visitorLocations || []} />
+                  <WorldVisitorMap locations={data?.visitorLocations || []} isSidebar={isSidebar} />
                 )}
               </div>
             </div>
