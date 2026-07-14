@@ -4,12 +4,14 @@ interface InteractiveTiltCardProps {
   children: React.ReactNode;
   className?: string;
   glowColor?: string; // e.g. "rgba(99, 102, 241, 0.15)"
+  disabled?: boolean;
 }
 
 export default function InteractiveTiltCard({
   children,
   className = '',
-  glowColor = 'rgba(99, 102, 241, 0.25)'
+  glowColor = 'rgba(99, 102, 241, 0.25)',
+  disabled = false
 }: InteractiveTiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
@@ -59,7 +61,7 @@ export default function InteractiveTiltCard({
   };
 
   // Only apply tilt on non-touch devices
-  const activeHover = isHovered && !isTouchDevice;
+  const activeHover = !disabled && isHovered && !isTouchDevice;
 
   // Max tilt angle (degrees)
   const maxTilt = 12;

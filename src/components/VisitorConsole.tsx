@@ -84,6 +84,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
   return (
     <InteractiveTiltCard
       glowColor="rgba(249, 115, 22, 0.15)"
+      disabled={true}
       className={isSidebar 
         ? "w-full p-4 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-lg h-full"
         : "col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-slate-950 via-slate-900/60 to-amber-950/10 border border-slate-900/80 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden shadow-lg"
@@ -136,20 +137,20 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                 <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/5 rounded-full blur-xl -z-10 group-hover:bg-orange-500/10 transition-all" />
                 <div className="space-y-3">
                   <div>
-                    <span className="text-[9px] uppercase font-mono text-slate-500 font-bold tracking-wider">Total Visitors</span>
-                    <span className="text-3xl font-extrabold text-white tracking-tight mt-1 font-display drop-shadow-[0_0_10px_rgba(249,115,22,0.2)] block">
+                    <span className="text-[10px] uppercase font-mono text-slate-400 font-bold tracking-wider">Total Visitors</span>
+                    <span className="text-4xl font-extrabold text-white tracking-tight mt-1 font-display drop-shadow-[0_0_10px_rgba(249,115,22,0.2)] block">
                       {data?.totalVisits || 0}
                     </span>
                   </div>
                   
                   {/* Geolocation Stats list */}
                   {data?.visitsByCountry && data.visitsByCountry.length > 0 && (
-                    <div className="pt-2 border-t border-slate-900/65 space-y-1">
-                      <span className="text-[8px] uppercase font-mono text-slate-550 font-bold tracking-wider block">Top Regions</span>
-                      <div className="space-y-1 max-h-[64px] overflow-y-auto scrollbar-none">
-                        {data.visitsByCountry.slice(0, 3).map((c) => (
-                          <div key={c.countryCode} className="flex items-center justify-between text-[8px] font-mono">
-                            <span className="text-slate-350 truncate max-w-[70%]">{c.countryName}</span>
+                    <div className="pt-2.5 border-t border-slate-900/65 space-y-1.5">
+                      <span className="text-[10px] uppercase font-mono text-slate-450 font-bold tracking-wider block">Top Regions</span>
+                      <div className="space-y-1.5 max-h-[110px] overflow-y-auto scrollbar-none">
+                        {data.visitsByCountry.slice(0, 5).map((c) => (
+                          <div key={c.countryCode} className="flex items-center justify-between text-[10px] font-mono">
+                            <span className="text-slate-355 truncate max-w-[70%]">{c.countryName}</span>
                             <span className="text-orange-400 font-semibold">{c.percentage}%</span>
                           </div>
                         ))}
@@ -159,12 +160,12 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
 
                   {/* Telemetry Log Trail (Moved from bottom to Left Column) */}
                   {data?.recentVisits && data.recentVisits.length > 0 && (
-                    <div className="pt-2 border-t border-slate-900/65 space-y-1">
-                      <span className="text-[8px] uppercase font-mono text-slate-550 font-bold tracking-wider flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-orange-450" /> Telemetry Logs
+                    <div className="pt-2.5 border-t border-slate-900/65 space-y-1.5">
+                      <span className="text-[10px] uppercase font-mono text-slate-455 font-bold tracking-wider flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-orange-450" /> Telemetry Logs
                       </span>
-                      <div className="space-y-1 max-h-[72px] overflow-y-auto scrollbar-none font-mono text-[7px] text-slate-450">
-                        {data.recentVisits.slice(0, 3).map((visit) => {
+                      <div className="space-y-1.5 max-h-[96px] overflow-y-auto scrollbar-none font-mono text-[9px] text-slate-350">
+                        {data.recentVisits.slice(0, 4).map((visit) => {
                           const formattedTime = new Date(visit.timestamp).toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -178,9 +179,9 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                           else if (visit.userAgent.includes("Edge")) browser = "Edge";
 
                           return (
-                            <div key={visit.id} className="flex items-center justify-between hover:text-slate-300 transition-colors">
+                            <div key={visit.id} className="flex items-center justify-between hover:text-slate-200 transition-colors">
                               <span className="truncate max-w-[65%]">&gt; {visit.id}</span>
-                              <span className="text-slate-600 font-semibold">{formattedTime}</span>
+                              <span className="text-slate-550 font-medium">{formattedTime}</span>
                             </div>
                           );
                         })}
@@ -189,7 +190,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                   )}
                 </div>
 
-                <span className="text-[8px] text-slate-655 font-mono mt-1.5 flex items-center gap-1 pt-1.5 border-t border-slate-900/40">
+                <span className="text-[10px] text-slate-450 font-mono mt-2.5 flex items-center gap-1.5 pt-2 border-t border-slate-900/40">
                   <Activity className="w-3 h-3 text-emerald-450" />
                   Live Geolocation Sync
                 </span>
@@ -200,7 +201,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
             <div className={isSidebar ? "w-full p-3 rounded-xl bg-slate-950/30 border border-slate-900/50" : "md:col-span-8 flex flex-col justify-between p-4 rounded-xl bg-slate-950/30 border border-slate-900/50"}>
               <div>
                 <div className="flex items-center justify-between mb-3.5">
-                  <span className="text-[9px] uppercase font-mono text-slate-400 font-bold flex items-center gap-1.5">
+                  <span className="text-[10px] sm:text-[11px] uppercase font-mono text-slate-400 font-bold flex items-center gap-1.5">
                     {activeTab === 'day' ? (
                       <>
                         <BarChart3 className="w-3.5 h-3.5 text-orange-450" /> Distribution / Hari Kunjungan
@@ -217,7 +218,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                     <button
                       type="button"
                       onClick={() => setActiveTab('day')}
-                      className={`text-[8px] font-mono px-2 py-0.5 rounded transition-all cursor-pointer font-bold ${
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded transition-all cursor-pointer font-bold ${
                         activeTab === 'day'
                           ? 'bg-orange-500/15 text-orange-400 border border-orange-500/25'
                           : 'text-slate-500 hover:text-slate-355 border border-transparent'
@@ -228,7 +229,7 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                     <button
                       type="button"
                       onClick={() => setActiveTab('map')}
-                      className={`text-[8px] font-mono px-2 py-0.5 rounded transition-all cursor-pointer font-bold ${
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded transition-all cursor-pointer font-bold ${
                         activeTab === 'map'
                           ? 'bg-orange-500/15 text-orange-400 border border-orange-500/25'
                           : 'text-slate-500 hover:text-slate-355 border border-transparent'
@@ -247,12 +248,12 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
 
                       return (
                         <div key={day.dayOfWeek} className="space-y-1">
-                          <div className="flex items-center justify-between text-[9px] font-mono">
+                          <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono">
                             <span className="text-slate-355 font-medium">
-                              {day.dayNameIndo} <span className="text-slate-600">({getDayInitial(day.dayNameEng)})</span>
+                              {day.dayNameIndo} <span className="text-slate-550">({getDayInitial(day.dayNameEng)})</span>
                             </span>
-                            <span className="text-slate-400 font-semibold">
-                              {day.count} <span className="text-slate-650">({day.percentage}%)</span>
+                            <span className="text-slate-300 font-semibold">
+                              {day.count} <span className="text-slate-550">({day.percentage}%)</span>
                             </span>
                           </div>
                           <div className="h-2 w-full bg-slate-950 rounded-full overflow-hidden border border-slate-900/80">
