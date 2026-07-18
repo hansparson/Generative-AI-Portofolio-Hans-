@@ -711,6 +711,17 @@ export default function App() {
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
                 className="hidden md:flex flex-col items-center justify-center w-[200px] h-[220px] relative pointer-events-auto select-none"
               >
+                {/* Floating Minimize Button Above Avatar */}
+                <button
+                  type="button"
+                  onClick={() => setIsChatOpen(false)}
+                  className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-indigo-950/50 hover:bg-indigo-900/70 border border-indigo-500/30 hover:border-indigo-500/65 rounded text-[7px] font-mono text-indigo-400 hover:text-indigo-300 uppercase tracking-widest backdrop-blur-sm shadow-md transition-all duration-200 cursor-pointer flex items-center gap-1 font-bold z-30"
+                  title="Minimize Chat"
+                >
+                  <span className="w-1 h-1 rounded-full bg-indigo-500 animate-pulse"></span>
+                  [MINIMIZE]
+                </button>
+
                 {/* Scrolling scanner line over transparent hologram */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
                   <div className="laser-scanner-line" />

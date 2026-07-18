@@ -192,12 +192,12 @@ export default function ChatPanel({
           <button
             type="button"
             onClick={onToggleWorkspace}
-            className="text-[10px] font-mono text-indigo-400 hover:text-indigo-300 uppercase tracking-wider transition-colors flex items-center gap-1 hover:bg-slate-900/50 px-2 py-0.5 rounded border border-indigo-500/20 cursor-pointer font-bold"
+            className="md:hidden text-[10px] font-mono text-indigo-400 hover:text-indigo-300 uppercase tracking-wider transition-colors flex items-center gap-1 hover:bg-slate-900/50 px-2 py-0.5 rounded border border-indigo-500/20 cursor-pointer font-bold"
             title="Minimize Chat Panel"
           >
             [Minimize]
           </button>
-          <span className="text-slate-800">|</span>
+          <span className="text-slate-800 md:hidden">|</span>
           <button
             type="button"
             onClick={toggleMute}
