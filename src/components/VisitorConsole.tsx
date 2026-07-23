@@ -16,6 +16,9 @@ interface VisitRecord {
   timestamp: string;
   dayOfWeek: number;
   userAgent: string;
+  countryCode?: string;
+  countryName?: string;
+  city?: string;
 }
 
 interface CountryVisitStats {
@@ -169,7 +172,8 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                       </span>
                       <div className="space-y-1.5 max-h-[96px] overflow-y-auto scrollbar-none font-mono text-[9px] text-slate-350">
                         {data.recentVisits.slice(0, 4).map((visit) => {
-                          const formattedTime = new Date(visit.timestamp).toLocaleTimeString([], {
+                          const dateObj = new Date(visit.timestamp);
+                          const formattedTime = dateObj.toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
                             second: '2-digit',
@@ -181,10 +185,32 @@ export default function VisitorConsole({ isSidebar = false, onCloseSidebar }: Vi
                           else if (visit.userAgent.includes("Firefox")) browser = "Firefox";
                           else if (visit.userAgent.includes("Edge")) browser = "Edge";
 
+                          const daysIndo = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                          const dayName = daysIndo[dateObj.getDay()];
+                          const day = String(dateObj.getDate()).padStart(2, '0');
+                          const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                          const dateStr = `${day}/${month}`;
+                          
+                          const location = visit.city 
+                            ? `${visit.city}, ${visit.countryCode || '??'}`
+                            : (visit.countryName || visit.countryCode || "Visitor");
+                            
+                          const daysFullIndo = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                          const monthsFullIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                          const fullDateStr = `${daysFullIndo[dateObj.getDay()]}, ${day} ${monthsFullIndo[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+
+                          const tooltip = `Visit ID: ${visit.id}\nTanggal: ${fullDateStr}\nWaktu: ${formattedTime}\nLokasi: ${visit.city || '-'}${visit.countryName ? `, ${visit.countryName}` : ''} (${visit.countryCode || '?'})\nBrowser: ${browser}`;
+
                           return (
-                            <div key={visit.id} className="flex items-center justify-between hover:text-slate-200 transition-colors">
-                              <span className="truncate max-w-[65%]">&gt; {visit.id}</span>
-                              <span className="text-slate-550 font-medium">{formattedTime}</span>
+                            <div 
+                              key={visit.id} 
+                              className="flex items-center justify-between hover:text-orange-400 transition-colors cursor-help py-0.5 border-b border-slate-900/30 last:border-0"
+                              title={tooltip}
+                            >
+                              <span className="truncate max-w-[70%] text-slate-400">
+                                &gt; {dayName}, {dateStr} - {location}
+                              </span>
+                              <span className="text-slate-550 font-medium shrink-0 ml-2">{formattedTime}</span>
                             </div>
                           );
                         })}
